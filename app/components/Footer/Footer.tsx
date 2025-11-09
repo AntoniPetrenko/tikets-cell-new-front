@@ -17,11 +17,11 @@ export const Footer = () => {
       </div>
 
       <div className="flex justify-center md:justify-between flex-col md:flex-row gap-8 md:gap-4">
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center">
           <div className="font-semibold text-xl md:text-3xl text-white">
             Меню
           </div>
-          <div>
+          <div className="flex flex-col items-center">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -33,7 +33,7 @@ export const Footer = () => {
             ))}
           </div>
         </div>
-        <div className="flex flex-col font-medium text-sm text-white">
+        <div className="flex flex-col items-center font-medium text-sm text-white">
           <div className="font-semibold text-xl md:text-3xl text-white">
             Контакти
           </div>
@@ -41,11 +41,11 @@ export const Footer = () => {
             м. Київ вул. Велика 9
           </div>
         </div>
-        <div className="flex flex-col font-medium text-sm text-white">
+        <div className="flex flex-col items-center font-medium text-sm text-white">
           <div className="font-semibold text-xl md:text-3xl text-white">
             Корисна інформація
           </div>
-          <div>
+          <div className="flex flex-col items-center">
             {subNavItems.map((item) => (
               <Link
                 key={item.href}

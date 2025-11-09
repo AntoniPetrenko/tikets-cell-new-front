@@ -9,6 +9,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "pink" | "transparent";
   href?: string;
   loading?: boolean;
+  sizeText?: "small" | "normal";
 }
 
 export function Button({
@@ -18,10 +19,11 @@ export function Button({
   disabled,
   className,
   children,
+  sizeText = "normal",
   ...props
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center px-4 py-2 font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2";
+    "cursor-pointer inline-flex items-center justify-center px-4 py-2 font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2";
 
   const variants = {
     pink: "bg-[#F9449B] text-white hover:shadow-[0_4px_15px_rgba(249,68,155,0.4)] disabled:opacity-70 border-0 focus:ring-0",
@@ -29,9 +31,15 @@ export function Button({
       "bg-transparent border border-white text-white hover:shadow-[0_4px_15px_rgba(255,255,255,0.4)] focus:ring-white disabled:opacity-70",
   };
 
+  const sizeTexts = {
+    small: "text-lg",
+    normal: "text-2xl",
+  };
+
   const classes = cn(
     baseStyles,
     variants[variant],
+    sizeTexts[sizeText],
     (disabled || loading) && "cursor-not-allowed opacity-50",
     className
   );
