@@ -3,7 +3,7 @@
 export default function Contacts() {
   return (
     <div>
-      <h1>Contacts</h1>
+      <h1>нужно обсудить</h1>
     </div>
   );
 }

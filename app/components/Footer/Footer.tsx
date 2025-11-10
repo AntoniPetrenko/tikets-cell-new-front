@@ -1,18 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { Logo } from "../Logo/Logo";
 import { navItems, subNavItems } from "@/app/const";
-import { Instagram, Facebook } from "lucide-react";
+import Image from "next/image";
 
 export const Footer = () => {
   return (
     <div className="flex flex-col p-4 md:p-8 gap-8 md:gap-4">
       <div className="flex justify-between">
-        <Logo />
+        <Image src="/logo.png" alt="logo" width={100} height={100} />
         <div className="flex text-white text-sm gap-8">
-          <Instagram />
-          <Facebook />
+          <Link
+            href="https://t.me/automerchclub"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              src="/icons/telegram.svg"
+              alt="telegram"
+              width={50}
+              height={50}
+              className="invert brightness-0"
+            />
+          </Link>
         </div>
       </div>
 

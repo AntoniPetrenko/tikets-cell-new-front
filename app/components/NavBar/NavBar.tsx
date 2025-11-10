@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { Logo } from "../Logo/Logo";
 import { navItems } from "@/app/const";
+import Image from "next/image";
 
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +12,7 @@ export default function NavBar() {
   return (
     <nav className="shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center md:justify-between">
+        <div className="flex justify-between h-20 items-center md:justify-between">
           <div
             className={`flex items-center justify-between w-full md:w-auto transition-all duration-300 flex-row`}
           >
@@ -21,7 +21,7 @@ export default function NavBar() {
               className="text-2xl font-semibold text-white md:mr-6"
               onClick={() => setIsOpen(false)}
             >
-              <Logo />
+              <Image src="/logo.png" alt="logo" width={100} height={100} />
             </Link>
 
             <div className="md:hidden">
