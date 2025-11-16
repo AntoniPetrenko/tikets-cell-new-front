@@ -20,14 +20,14 @@ export const Slider = ({ images }: SliderProps) => {
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => setIsDesktop(window.innerWidth >= 768);
+    const handleResize = () => setIsDesktop(window.innerWidth >= 992);
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
-    <div className="w-full max-w-3xl mx-auto">
+    <div className="w-full md:w-2/3 max-w-sm md:max-w-3xl mx-auto">
       <Swiper
         modules={[Navigation, Pagination, Thumbs]}
         navigation={isDesktop}
@@ -40,7 +40,7 @@ export const Slider = ({ images }: SliderProps) => {
       >
         {images.map((src, index) => (
           <SwiperSlide key={index}>
-            <div className="relative w-full h-[400px] md:h-[500px]">
+            <div className="relative w-full h-[300px] md:h-[400px]">
               <Image
                 src={src}
                 alt={`Slide ${index + 1}`}

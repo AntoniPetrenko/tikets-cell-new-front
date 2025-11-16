@@ -9,7 +9,7 @@ export const Footer = () => {
     <div className="flex flex-col p-4 md:p-8 gap-8 md:gap-4">
       <div className="flex justify-between">
         <Image src="/logo.png" alt="logo" width={100} height={100} />
-        <div className="flex text-white text-sm gap-8">
+        <div className="flex justify-center items-center text-white text-sm gap-8">
           <Link
             href="https://t.me/automerchclub"
             target="_blank"
