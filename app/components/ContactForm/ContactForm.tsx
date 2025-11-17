@@ -74,7 +74,7 @@ export const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
         signature: result.signature,
         mode: "popup", // embed || popup,
       })
-        .on("liqpay.callback", function ({ status, info: rawInfo }) {
+        .on("liqpay.callback", function ({ status, info: rawInfo }: any) {
           (window as any).LiqPayCheckout.lastStatus = status;
           const info = JSON.parse(rawInfo);
           (window as any).LiqPayCheckout.info = info;
