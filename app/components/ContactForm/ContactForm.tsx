@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Input from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useForm, Controller } from "react-hook-form";
@@ -8,6 +7,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../Button/Button";
 import { useParams } from "next/navigation";
+import { enqueueSnackbar } from "notistack";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   name: z.string().min(2, "Введіть коректне ім’я"),
@@ -21,8 +22,8 @@ const schema = z.object({
 type FormFields = z.infer<typeof schema>;
 
 export const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
-  const [liqPayLoaded, setLiqPayLoaded] = useState(false);
   const { id } = useParams();
+  const router = useRouter();
 
   const {
     handleSubmit,
@@ -62,30 +63,38 @@ export const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
   const onSubmit = async (data: FormFields) => {
     const params = new URLSearchParams(data);
-    // if (!liqPayLoaded) return alert("Скрипт LiqPay ще не завантажений");
 
     const result = await fetch(`/api/payment/${String(id)}?${params}`).then(
       (res) => res.json()
     );
 
-    const checkout = (window as any).LiqPayCheckout.init({
-      data: result.data,
-      signature: result.signature,
-      mode: "popup",
-    });
-
-    checkout
-      .on("liqpay.callback", (res: any) => {
-        console.log("callback", res);
-        onSuccess();
+    (window as any).LiqPayCheckoutCallback = function () {
+      (window as any).LiqPayCheckout.init({
+        data: result.data,
+        signature: result.signature,
+        mode: "popup", // embed || popup,
       })
-      .on("liqpay.close", () => {
-        console.log("Закрито LiqPay");
-      });
+        .on("liqpay.callback", function ({ status, info: rawInfo }) {
+          (window as any).LiqPayCheckout.lastStatus = status;
+          const info = JSON.parse(rawInfo);
+          (window as any).LiqPayCheckout.info = info;
+          console.log("status", status);
+          enqueueSnackbar(status, { variant: "success" });
+        })
 
-    checkout.show();
+        .on("liqpay.close", function () {
+          if ((window as any).LiqPayCheckout.lastStatus === "success") {
+            const paymentInfo = (window as any).LiqPayCheckout?.info || {};
+            const query = new URLSearchParams(
+              paymentInfo as Record<string, string>
+            ).toString();
+
+            router.push(`/result?${query}`);
+          }
+        });
+    };
+    (window as any).LiqPayCheckoutCallback();
   };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
