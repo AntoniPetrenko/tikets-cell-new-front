@@ -1,11 +1,14 @@
-"use client";
-import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import ResultClient from "./ResultClient";
 
-export default function Result() {
-  const searchParams = useSearchParams();
-  const info = Object.fromEntries(searchParams.entries());
+const SearchFallback = () => {
+  return <div>Обробка результату платежу...</div>;
+};
 
-  console.log("Payment info:", info);
-
-  return <div>Результат платежу: {JSON.stringify(info)}</div>;
+export default function ResultPage() {
+  return (
+    <Suspense fallback={<SearchFallback />}>
+      <ResultClient />
+    </Suspense>
+  );
 }
