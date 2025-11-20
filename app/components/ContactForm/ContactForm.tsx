@@ -99,6 +99,7 @@ export const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
             const query = new URLSearchParams(
               paymentInfo as Record<string, string>
             ).toString();
+            onSuccess();
 
             router.push(`/result?${query}`);
           }

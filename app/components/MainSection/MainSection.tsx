@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import BMW from "../../../public/bmw-m5.jpg";
 
 export const MainSection = () => {
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center">
       <Image
-        src="/bmw-m5.jpg"
+        src={BMW}
         alt="Background"
         fill
         priority

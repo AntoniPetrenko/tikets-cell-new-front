@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import BmwSrc from "../../../public/bg_auto.jpg";
 
 export const AboutUsSection = () => {
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center">
       <Image
-        src="/bmw.jpeg"
+        src={BmwSrc}
         alt="Car background"
         fill
         className="object-cover object-center z-10"

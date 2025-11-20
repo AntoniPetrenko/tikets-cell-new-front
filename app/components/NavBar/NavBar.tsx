@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { navItems } from "@/app/const";
 import Image from "next/image";
+import logo from "../../../public/logo.png";
 
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +22,7 @@ export default function NavBar() {
               className="text-2xl font-semibold text-white md:mr-6"
               onClick={() => setIsOpen(false)}
             >
-              <Image src="/logo.png" alt="logo" width={100} height={100} />
+              <Image src={logo} alt="logo" width={100} height={100} />
             </Link>
 
             <div className="md:hidden">

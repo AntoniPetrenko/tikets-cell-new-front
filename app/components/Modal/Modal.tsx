@@ -28,15 +28,12 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* фон */}
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* контейнер модалки */}
-      <div className="relative z-10 w-full max-w-md rounded-2xl bg-white p-6 shadow-xl animate-fade-in">
-        {/* кнопка "X" */}
+      <div className="relative z-10 w-full max-w-md rounded-2xl bg-white p-6 shadow-xl animate-fade-in m-4">
         <button
           onClick={onClose}
           className="absolute right-4 top-4 text-gray-600 hover:text-black"

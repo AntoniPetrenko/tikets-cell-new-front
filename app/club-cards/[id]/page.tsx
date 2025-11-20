@@ -22,7 +22,7 @@ export default function ClubCard() {
         strategy="afterInteractive"
       />
       <div className="pt-24 flex flex-col  justify-center items-center text-white">
-        <div className="flex justify-center items-center gap-8 p-3">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-8 p-3">
           <Image
             width={300}
             height={300}
@@ -38,7 +38,22 @@ export default function ClubCard() {
                 {item}
               </p>
             ))}
-            <p className="text-6xl font-bold">{product?.price} ₴</p>
+            {product?.rebate != 0 ? (
+              <div>
+                {" "}
+                <div>
+                  <span className="line-through decoration-2 decoration-red-500">
+                    {product?.price}
+                  </span>{" "}
+                  <span>₴</span>
+                </div>
+                <div className="font-bold text-4xl text-red-500">
+                  {product?.rebate} ₴
+                </div>
+              </div>
+            ) : (
+              <div className="font-bold text-4xl">{product.price} ₴</div>
+            )}
           </div>
         </div>
 

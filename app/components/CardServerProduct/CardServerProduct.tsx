@@ -50,7 +50,9 @@ export const CardServerProduct: React.FC<CardProps> = ({ product }) => {
               </span>{" "}
               <span>₴</span>
             </div>
-            <div className="font-bold text-4xl">{product.rebate} ₴</div>
+            <div className="font-bold text-4xl text-red-500">
+              {product.rebate} ₴
+            </div>
           </div>
         ) : (
           <div className="font-bold text-4xl">{product.price} ₴</div>
