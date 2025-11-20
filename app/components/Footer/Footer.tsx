@@ -27,21 +27,16 @@ export const Footer = () => {
       </div>
 
       <div className="flex justify-center md:justify-between flex-col md:flex-row gap-8 md:gap-4">
-        <div className="flex flex-col items-center">
-          <div className="font-semibold text-xl md:text-3xl text-white">
-            Меню
-          </div>
-          <div className="flex flex-col items-center">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="flex flex-col text-white hover:text-pink-600 font-medium text-base md:text-xl"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
+        <div className="flex flex-col items-center md:items-start ">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="flex flex-col text-white hover:text-pink-600 font-medium text-base md:text-xl"
+            >
+              {item.label}
+            </Link>
+          ))}
         </div>
         <div className="flex flex-col items-center font-medium text-sm text-white">
           <div className="font-semibold text-xl md:text-3xl text-white">
@@ -52,10 +47,7 @@ export const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col items-center font-medium text-sm text-white">
-          <div className="font-semibold text-xl md:text-3xl text-white">
-            Корисна інформація
-          </div>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center md:items-start">
             {subNavItems.map((item) => (
               <Link
                 key={item.href}

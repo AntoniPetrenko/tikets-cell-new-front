@@ -36,15 +36,17 @@ export default function NavBar() {
           </div>
 
           <div className="hidden md:flex space-x-6">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-white hover:text-pink-600 font-medium text-sm"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems
+              .filter((item) => item.href != "/club-cards")
+              .map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="text-white hover:text-pink-600 font-medium text-sm"
+                >
+                  {item.label}
+                </Link>
+              ))}
           </div>
         </div>
       </div>

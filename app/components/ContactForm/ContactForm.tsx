@@ -68,6 +68,16 @@ export const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
       (res) => res.json()
     );
 
+    if (result.invoiceId) {
+      try {
+        window.location.href = result.pageUrl;
+        return;
+      } catch (e: any) {
+        enqueueSnackbar(e.message, { variant: "error" });
+        return;
+      }
+    }
+
     (window as any).LiqPayCheckoutCallback = function () {
       (window as any).LiqPayCheckout.init({
         data: result.data,
@@ -83,6 +93,7 @@ export const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
         })
 
         .on("liqpay.close", function () {
+          console.log((window as any).LiqPayCheckout.lastStatus);
           if ((window as any).LiqPayCheckout.lastStatus === "success") {
             const paymentInfo = (window as any).LiqPayCheckout?.info || {};
             const query = new URLSearchParams(

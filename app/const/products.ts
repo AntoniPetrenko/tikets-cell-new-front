@@ -1,4 +1,4 @@
-import { Product, ProductsType } from "../types";
+import { Product, ProductServer, ProductsType } from "../types";
 
 
 export const ProductsClient: Product[] = [
@@ -68,7 +68,7 @@ export const ProductsClient: Product[] = [
   },
   {
     title: "Накладки M на дзеркала BMW E60",
-    description: "Накладки M на дзеркала BMW E60 надають автомобілю спортивного та стильного вигляду. Виготовлені з високоякісних матеріалів для довговічності та надійності. Легко встановлюються і підходять для заміни стандартних накладок.",
+    description: "Накладки M на дзеркала BMW E60 надають автомобілю спортивного та стильного вигляду. Виготовлені з високоякісних матеріалів для довговічності та надійності.",
     customID: ProductsType.clientProducts,
     price: 1199,
     photo: [
@@ -97,13 +97,145 @@ export const ProductsClient: Product[] = [
     is_active: true,
     rebate: 0, 
     count_of_tickets: 0
+  },
+  {
+    title: "Решітка радіатор BMW e46",
+    description: "Решітка радіатора BMW E46 – це деталь передньої частини автомобіля, яка захищає радіатор від пошкоджень та забезпечує потік повітря для охолодження двигуна. Вона також є важливим елементом дизайну, який надає автомобілю характерний зовнішній вигляд. Цю деталь можна легко замінити при необхідності ремонту або оновлення стилю.",
+    customID: ProductsType.clientProducts,
+    price: 1300,
+    photo: [
+      "/products-client/BMW_E46_radiator_grille_1.png",
+      "/products-client/BMW_E46_radiator_grille_2.png",
+      "/products-client/BMW_E46_radiator_grille_3.png",
+    ],
+    id: 13,
+    is_active: true,
+    rebate: 0, 
+    count_of_tickets: 0
+  },
+  {
+    title: "Накладки на дзеркала BMW F10/F11",
+    description: "Накладки на дзеркала BMW F10/F11 – це декоративні та захисні елементи, що встановлюються на зовнішні дзеркала автомобіля. Вони захищають корпус дзеркала від подряпин і невеликих пошкоджень, а також надають машині більш стильний та сучасний вигляд. У разі необхідності накладки можна легко замінити.",
+    customID: ProductsType.clientProducts,
+    price: 1400,
+    photo: [
+      "/products-client/BMW_F10_F11_mirror_covers_1.jpg",
+      "/products-client/BMW_F10_F11_mirror_covers_2.jpg",
+      "/products-client/BMW_F10_F11_mirror_covers_3.jpg",
+      "/products-client/BMW_F10_F11_mirror_covers_4.jpg",
+      "/products-client/BMW_F10_F11_mirror_covers_5.jpg",
+      "/products-client/BMW_F10_F11_mirror_covers_6.jpg",
+    ],
+    id: 14,
+    is_active: true,
+    rebate: 0, 
+    count_of_tickets: 0
+  },
+   {
+    title: "Накладки на дзеркала BMW g20",
+    description: "Накладки на дзеркала BMW G20 – це стильні та функціональні деталі, які встановлюються на зовнішні дзеркала автомобіля. Вони захищають корпус дзеркал від подряпин та невеликих ушкоджень, а також підкреслюють сучасний дизайн автомобіля. Такі накладки легко замінюються при необхідності.",
+    customID: ProductsType.clientProducts,
+    price: 1600,
+    photo: [
+      "/products-client/BMW_G20_mirror_covers_1.jpg",
+      "/products-client/BMW_G20_mirror_covers_2.jpg",
+      "/products-client/BMW_G20_mirror_covers_3.jpg",
+      "/products-client/BMW_G20_mirror_covers_4.jpg",
+      "/products-client/BMW_G20_mirror_covers_5.jpg",
+      "/products-client/BMW_G20_mirror_covers_6.jpg",
+      "/products-client/BMW_G20_mirror_covers_7.jpg",
+    ],
+    id: 15,
+    is_active: true,
+    rebate: 0, 
+    count_of_tickets: 0
   }
 ]
 
-export const ImagesProductsServer: Record<number, string> = {
-  1: "/products-server/eleven.png",
-  2: "/products-server/six.png",
-  3: "/products-server/two.png",
-  4: "/products-server/one.png",
-  5: "/products-server/twfive.png"
-}
+
+
+export const ProductsServer: ProductServer[] = [
+  {
+    title: "Клубная карта Base",
+    description: "Стартовий рівень для тих, хто хоче спробувати автоклуб.",
+    texts: [
+      "Базові консультації з вибору авто",
+      "Підбір стандартних запчастин",
+      "Доступ до базового контенту та оновлень"
+    ],
+    customID: ProductsType.serverProducts,
+    price: 99,
+    photo: [
+      "/products-server/base.png"
+    ],
+    id: 4,
+    rebate: 0
+  },
+  {
+    title: "Клубная карта START",
+    description: "Розширені можливості для активних користувачів.",
+    texts: [
+      "Все з BASE",
+      "Розширений підбір запчастин",
+      "Підбір авто по кількох варіантах",
+      "Ранній доступ до контенту та новинок"
+    ],
+    customID: ProductsType.serverProducts,
+    price: 199,
+    photo: [
+      "/products-server/start.png"
+    ],
+    id: 3,
+    rebate: 0
+  },
+   {
+    title: "Клубная карта SILVER",
+    description: "Перший преміальний рівень.",
+    texts: [
+      "Все з START",
+      "Підбір авто «під ключ» знижка -15%",
+      "Перевірка варіантів по VIN",
+      "Персональні рекомендації від спеціаліста"
+    ],
+    customID: ProductsType.serverProducts,
+    price: 600,
+    photo: [
+      "/products-server/silver.png"
+    ],
+    id: 2,
+    rebate: 499
+  },
+  {
+    title: "Клубная карта GOLD",
+    description: "Максимум переваг для вимогливих клієнтів.",
+    texts: [
+      "Все з SILVER",
+      "Пріоритетна обробка запитів",
+      "Місячні бонуси та подарунки"
+    ],
+    customID: ProductsType.serverProducts,
+    price: 1200,
+    photo: [
+      "/products-server/gold.png"
+    ],
+    id: 1,
+    rebate: 999
+  },
+  {
+    title: "Клубная карта Platinum",
+    description: "Топовий рівень — VIP-доступ без обмежень.",
+    texts: [
+      "Все з GOLD",
+      "Персональний авто-консультант 24/7",
+      "Повний супровід покупки",
+      "Персональний підбір запчастин без лімітів"
+    ],
+    customID: ProductsType.serverProducts,
+    price: 2500,
+    photo: [
+      "/products-server/platinum.png"
+    ],
+    id: 5,
+    rebate: 1999
+  },
+]
