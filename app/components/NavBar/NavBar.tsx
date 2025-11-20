@@ -43,7 +43,7 @@ export default function NavBar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="text-white hover:text-pink-600 font-medium text-sm"
+                  className="text-white hover:text-orange-500 font-medium text-sm"
                 >
                   {item.label}
                 </Link>
@@ -57,16 +57,18 @@ export default function NavBar() {
         }`}
       >
         <div className="px-4 pb-4 space-y-3">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="block text-white hover:text-pink-600 font-medium text-base"
-              onClick={() => setIsOpen(false)}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {navItems
+            .filter((item) => item.href != "/club-cards")
+            .map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="block text-white hover:text-orange-500 font-medium text-base"
+                onClick={() => setIsOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
         </div>
       </div>
     </nav>

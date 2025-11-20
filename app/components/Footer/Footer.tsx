@@ -28,7 +28,7 @@ export const Footer = () => {
             <Link
               key={item.href}
               href={item.href}
-              className="flex flex-col text-white hover:text-pink-600 font-medium text-sm"
+              className="flex flex-col text-white hover:text-orange-500 font-medium text-sm"
             >
               {item.label}
             </Link>
@@ -51,7 +51,7 @@ export const Footer = () => {
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex flex-col text-white hover:text-pink-600 font-medium text-sm"
+                className="flex flex-col text-white hover:text-orange-500 font-medium text-sm"
               >
                 {item.label}
               </Link>
