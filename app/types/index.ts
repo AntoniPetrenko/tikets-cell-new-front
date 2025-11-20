@@ -3,18 +3,16 @@ export interface NavItem {
   href: string;
 }
 
-interface CustomId {
-  customID: ProductsType,
-}
 
 export interface ProductServer {
   id: number;
   title: string;
   description: string;
+  texts: string[];
   price: number;
   rebate: number;
-  count_of_tickets: number;
-  is_active: boolean;
+  customID: ProductsType,
+  photo: string[],
 }
 
 export enum ProductsType {
@@ -33,4 +31,6 @@ export interface Product {
   count_of_tickets: number;
   is_active: boolean;
 }
+
+
 

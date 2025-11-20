@@ -4,6 +4,7 @@ export const navItems: NavItem[] = [
   { label: "Головна", href: "/" },
   { label: "Каталог", href: "/catalog" },
   { label: "Контакти", href: "/contacts" },
+  { label: "Клубні карти", href: "/club-cards"}
 ];
 
 export const subNavItems: NavItem[] = [

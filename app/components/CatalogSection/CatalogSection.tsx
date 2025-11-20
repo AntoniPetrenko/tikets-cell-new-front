@@ -1,13 +1,9 @@
 "use client";
 
-import { Product } from "@/app/types";
-import { Card } from "../Card/Card";
+import { CardClientProduct } from "../CardClientProduct/CardClientProduct";
+import { ProductsClient } from "@/app/const/products";
 
-interface CatalogSectionProps {
-  products: Product[];
-}
-
-export const CatalogSection: React.FC<CatalogSectionProps> = ({ products }) => {
+export const CatalogSection: React.FC = () => {
   return (
     <section className="bg-gray-900 w-full flex flex-col justify-center items-center text-white">
       <div className="text-2xl md:text-4xl font-bold text-center pt-4">
@@ -17,11 +13,9 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ products }) => {
         Handpicked selection of our top-rated vehicles
       </div>
       <div className="flex flex-col md:flex-row gap-8 flex-wrap justify-center items-center pb-4">
-        {products
-          .filter((item) => item.is_active)
-          .map((product) => {
-            return <Card product={product} key={product.id} />;
-          })}
+        {ProductsClient.map((product) => {
+          return <CardClientProduct product={product} key={product.id} />;
+        })}
       </div>
     </section>
   );
