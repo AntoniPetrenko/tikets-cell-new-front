@@ -13,6 +13,7 @@ export interface ProductServer {
   rebate: number;
   customID: ProductsType,
   photo: string[],
+  type: string
 }
 
 export enum ProductsType {

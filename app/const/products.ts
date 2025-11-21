@@ -166,10 +166,11 @@ export const ProductsServer: ProductServer[] = [
     customID: ProductsType.serverProducts,
     price: 99,
     photo: [
-      "/products-server/base.png"
+      "/products-server/base.PNG"
     ],
     id: 4,
-    rebate: 0
+    rebate: 0,
+    type: "Base"
   },
   {
     title: "Клубная карта START",
@@ -183,10 +184,11 @@ export const ProductsServer: ProductServer[] = [
     customID: ProductsType.serverProducts,
     price: 199,
     photo: [
-      "/products-server/start.png"
+      "/products-server/start.PNG"
     ],
     id: 3,
-    rebate: 0
+    rebate: 0,
+    type: "Start"
   },
    {
     title: "Клубная карта SILVER",
@@ -200,10 +202,11 @@ export const ProductsServer: ProductServer[] = [
     customID: ProductsType.serverProducts,
     price: 600,
     photo: [
-      "/products-server/silver.png"
+      "/products-server/silver.PNG"
     ],
     id: 2,
-    rebate: 499
+    rebate: 499,
+    type: "Silver"
   },
   {
     title: "Клубная карта GOLD",
@@ -216,10 +219,11 @@ export const ProductsServer: ProductServer[] = [
     customID: ProductsType.serverProducts,
     price: 1200,
     photo: [
-      "/products-server/gold.png"
+      "/products-server/gold.PNG"
     ],
     id: 1,
-    rebate: 999
+    rebate: 999,
+    type: "Gold"
   },
   {
     title: "Клубная карта Platinum",
@@ -233,9 +237,10 @@ export const ProductsServer: ProductServer[] = [
     customID: ProductsType.serverProducts,
     price: 2500,
     photo: [
-      "/products-server/platinum.png"
+      "/products-server/platinum.PNG"
     ],
     id: 5,
-    rebate: 1999
+    rebate: 1999,
+    type: "Platinum"
   },
 ]

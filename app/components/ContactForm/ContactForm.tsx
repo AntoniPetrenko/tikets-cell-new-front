@@ -2,48 +2,31 @@
 
 import Input from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import { useForm, Controller } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import { Button } from "../Button/Button";
-import { useParams } from "next/navigation";
 import { enqueueSnackbar } from "notistack";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
-const schema = z.object({
-  name: z.string().min(2, "Введіть коректне ім’я"),
-  email: z.string().email("Невірний email"),
-  tel: z
-    .string()
-    .min(1, "Потрібно вказати номер телефону")
-    .regex(/^\+?[0-9\s\-()]{7,20}$/, "Має бути дійсний номер телефону"),
+const validationSchema = Yup.object({
+  name: Yup.string()
+    .min(2, "Введіть коректне ім’я")
+    .required("Обовʼязкове поле"),
+  email: Yup.string().email("Невірний email").required("Обовʼязкове поле"),
+  tel: Yup.string()
+    .matches(/^\+?[0-9\s\-()]{7,20}$/, "Має бути дійсний номер телефону")
+    .required("Потрібно вказати номер телефону"),
 });
-
-type FormFields = z.infer<typeof schema>;
 
 export const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const { id } = useParams();
   const router = useRouter();
 
-  const {
-    handleSubmit,
-    control,
-    register,
-    formState: { errors },
-  } = useForm<FormFields>({
-    resolver: zodResolver(schema),
-  });
-
   const formatPhone = (value: string) => {
     let numbers = value.replace(/\D/g, "");
 
-    if (numbers.startsWith("38")) {
-      numbers = numbers.slice(2);
-    }
-
-    if (numbers.startsWith("0")) {
-      numbers = numbers.slice(1);
-    }
+    if (numbers.startsWith("38")) numbers = numbers.slice(2);
+    if (numbers.startsWith("0")) numbers = numbers.slice(1);
 
     numbers = numbers.slice(0, 9);
 
@@ -61,7 +44,7 @@ export const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
     )}`;
   };
 
-  const onSubmit = async (data: FormFields) => {
+  const handlePayment = async (data: any) => {
     const params = new URLSearchParams(data);
 
     const result = await fetch(`/api/payment/${String(id)}?${params}`).then(
@@ -82,81 +65,110 @@ export const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
       (window as any).LiqPayCheckout.init({
         data: result.data,
         signature: result.signature,
-        mode: "popup", // embed || popup,
+        mode: "popup",
       })
         .on("liqpay.callback", function ({ status, info: rawInfo }: any) {
           (window as any).LiqPayCheckout.lastStatus = status;
           const info = JSON.parse(rawInfo);
           (window as any).LiqPayCheckout.info = info;
-          console.log("status", status);
           enqueueSnackbar(status, { variant: "success" });
         })
-
         .on("liqpay.close", function () {
-          console.log((window as any).LiqPayCheckout.lastStatus);
           if ((window as any).LiqPayCheckout.lastStatus === "success") {
             const paymentInfo = (window as any).LiqPayCheckout?.info || {};
             const query = new URLSearchParams(
               paymentInfo as Record<string, string>
             ).toString();
             onSuccess();
-
             router.push(`/result?${query}`);
           }
         });
     };
+
     (window as any).LiqPayCheckoutCallback();
   };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div>
-        <label className="block text-sm font-medium">Ім’я</label>
-        <input
-          {...register("name")}
-          className="mt-1 w-full rounded-lg border px-3 py-2 text-black"
-          placeholder="Ваше ім’я"
-        />
-        {errors.name && (
-          <p className="text-sm text-red-600">{errors.name.message}</p>
-        )}
-      </div>
+    <Formik
+      initialValues={{ name: "", email: "", tel: "" }}
+      validationSchema={validationSchema}
+      validateOnMount
+      onSubmit={(values) => handlePayment(values)}
+    >
+      {({ values, setFieldValue, isValid, isSubmitting }) => {
+        const isDisabled =
+          !isValid ||
+          isSubmitting ||
+          !values.name ||
+          !values.email ||
+          !values.tel;
 
-      <div>
-        <label className="block text-sm font-medium">Телефон</label>
-        <Controller
-          control={control}
-          name="tel"
-          render={({ field }) => (
-            <Input
-              defaultCountry="UA"
-              countries={["UA"]}
-              value={field.value}
-              international
-              onChange={(value) => field.onChange(formatPhone(value || ""))}
-              className="phone-input-custom"
-              placeholder="+380 XX XXX XXXX"
-            />
-          )}
-        />
-        {errors.tel && (
-          <p className="text-sm text-red-600">{errors.tel.message}</p>
-        )}
-      </div>
+        return (
+          <Form className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium">Ім’я</label>
+              <Field
+                name="name"
+                className="mt-1 w-full rounded-lg border px-3 py-2 text-black"
+                placeholder="Ваше ім’я"
+              />
+              <ErrorMessage
+                name="name"
+                component="p"
+                className="text-sm text-red-600"
+              />
+            </div>
 
-      <div>
-        <label className="block text-sm font-medium">Email</label>
-        <input
-          type="email"
-          {...register("email")}
-          className="mt-1 w-full rounded-lg border px-3 py-2 text-black"
-          placeholder="example@mail.com"
-        />
-        {errors.email && (
-          <p className="text-sm text-red-600">{errors.email.message}</p>
-        )}
-      </div>
+            <div>
+              <label className="block text-sm font-medium">Телефон</label>
+              <Field name="tel">
+                {() => (
+                  <Input
+                    defaultCountry="UA"
+                    countries={["UA"]}
+                    value={values.tel}
+                    international
+                    onChange={(value) =>
+                      setFieldValue("tel", formatPhone(value || ""))
+                    }
+                    placeholder="+380 XX XXX XXXX"
+                    className="phone-input-custom"
+                  />
+                )}
+              </Field>
+              <ErrorMessage
+                name="tel"
+                component="p"
+                className="text-sm text-red-600"
+              />
+            </div>
 
-      <Button variant="pink">Відправити</Button>
-    </form>
+            <div>
+              <label className="block text-sm font-medium">Email</label>
+              <Field
+                name="email"
+                type="email"
+                className="mt-1 w-full rounded-lg border px-3 py-2 text-black"
+                placeholder="example@mail.com"
+              />
+              <ErrorMessage
+                name="email"
+                component="p"
+                className="text-sm text-red-600"
+              />
+            </div>
+
+            <Button
+              variant="pink"
+              type="submit"
+              disabled={isDisabled}
+              className={`${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
+            >
+              Відправити
+            </Button>
+          </Form>
+        );
+      }}
+    </Formik>
   );
 };

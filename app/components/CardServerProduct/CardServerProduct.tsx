@@ -12,25 +12,24 @@ interface CardProps {
 export const CardServerProduct: React.FC<CardProps> = ({ product }) => {
   const router = useRouter();
 
-  console.log(product);
   return (
     <div
-      className="text-white flex flex-col w-[381px] h-[402px] border-2 border-white border-solid 
+      className="text-white flex flex-col w-[381px] h-[480px] border-2 border-white border-solid 
                  shadow-[inset_0_0_25px_rgba(255,255,255,0.8),0_0_35px_rgba(255,255,255,0.6)] 
                  overflow-hidden p-4 transition-shadow duration-300 "
     >
-      <div className="relative w-full h-[180px] flex justify-center items-center">
+      <div className="relative w-full h-[280px] flex justify-center items-center">
         <Image
           src={product.photo[0]}
           alt="photo"
-          width={150}
-          height={150}
+          width={345}
+          height={294}
           className="object-cover object-center"
         />
       </div>
 
-      <div className="font-semibold text-2xl mt-4">{product.title}</div>
-      <div className="font-normal text-xs text-gray-300 mb-4">
+      <div className="font-semibold text-2xl">{product.title}</div>
+      <div className="font-normal text-xs text-gray-300 mb-4 mt-5">
         {product.description}
       </div>
       <div className="flex justify-between items-center mt-auto gap-4">
