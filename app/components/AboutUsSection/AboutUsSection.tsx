@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import BmwSrc from "../../../public/bg_auto.jpg";
+import BmwSrc from "../../../public/bmw-m5.jpg";
 
 export const AboutUsSection = () => {
   return (
@@ -37,7 +37,7 @@ export const AboutUsSection = () => {
             <p className="font-medium text-lg text-left">
               Підбираємо якісні запчастини для будь-якого автомобіля.
             </p>
-            <p className="font-medium text-lg text-left">
+            {/* <p className="font-medium text-lg text-left">
               • Оригінал або надійні аналоги
             </p>
             <p className="font-medium text-lg text-left">
@@ -48,12 +48,12 @@ export const AboutUsSection = () => {
             </p>
             <p className="font-medium text-lg text-left">
               • Формуємо повний перелік деталей
-            </p>
+            </p> */}
           </div>
-
+          {/* 
           <div className="font-medium text-lg text-left">
             Ти отримуєш лише ті запчастини, які підходять точно та без переплат.
-          </div>
+          </div> */}
 
           <div className="font-medium text-lg text-left">
             <p className="font-medium text-lg text-left font-bold">ЧОМУ МИ</p>
