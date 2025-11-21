@@ -20,7 +20,7 @@ export default function Contacts() {
             height={30}
             className=""
           />
-          <div className="text-lg">+380936018962</div>
+          <div className="text-lg">+38073 821 24 23</div>
         </div>
         <div className="flex gap-6">
           <Image

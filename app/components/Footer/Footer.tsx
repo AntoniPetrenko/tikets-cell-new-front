@@ -5,6 +5,9 @@ import { navItems, subNavItems } from "@/app/const";
 import Image from "next/image";
 import Telegram from "../../../public/icons/telegram.svg";
 import logo from "../../../public/logo.png";
+import Visa from "../../../public/visa.png";
+import MC from "../../../public/ma.png";
+import Maestro from "../../../public/ms_hrz_opt_pos_87_3x.png";
 
 export const Footer = () => {
   return (
@@ -35,7 +38,7 @@ export const Footer = () => {
           ))}
         </div>
         <div className="flex flex-col items-center md:items-start font-medium text-sm text-white">
-          <div className="text-white font-medium text-sm">+380936018962</div>
+          <div className="text-white font-medium text-sm">+38073 821 24 23</div>
           <div className="text-white font-medium text-sm">
             <Link
               href="mailto:yourmail@gmail.com"
@@ -58,6 +61,10 @@ export const Footer = () => {
             ))}
           </div>
         </div>
+      </div>
+      <div className="flex w-full justify-center gap-8">
+        <Image src={Visa} alt="visa" width={50} height={16} />
+        <Image src={Maestro} alt="master-car" width={90} height={25} />
       </div>
     </div>
   );
