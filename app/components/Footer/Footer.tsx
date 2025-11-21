@@ -8,7 +8,7 @@ import logo from "../../../public/logo.png";
 
 export const Footer = () => {
   return (
-    <div className="flex flex-col p-4 md:p-8 gap-8 md:gap-4">
+    <div className="relative flex flex-col p-4 md:p-8 gap-8 md:gap-4">
       <div className="flex justify-between">
         <Image src={logo} alt="logo" width={100} height={100} />
         <div className="flex justify-center items-center  gap-8">

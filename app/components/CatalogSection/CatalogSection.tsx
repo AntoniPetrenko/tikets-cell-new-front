@@ -5,7 +5,7 @@ import { ProductsClient } from "@/app/const/products";
 
 export const CatalogSection: React.FC = () => {
   return (
-    <section className="bg-gray-900 w-full flex flex-col justify-center items-center text-white">
+    <section className="relative  w-full flex flex-col justify-center items-center text-white">
       {/* <div className="text-2xl md:text-4xl font-bold text-center pt-4">
         Кат
       </div>
