@@ -154,7 +154,7 @@ export const ProductsClient: Product[] = [
 
 
 
-export const ProductsServer: ProductServer[] = [
+export const ClubCards: ProductServer[] = [
   {
     title: "Клубная карта Base",
     description: "Стартовий рівень для тих, хто хоче спробувати автоклуб.",
@@ -166,7 +166,7 @@ export const ProductsServer: ProductServer[] = [
     customID: ProductsType.serverProducts,
     price: 99,
     photo: [
-      "/products-server/base.png"
+      "/club-cards/BASE.png"
     ],
     id: 4,
     rebate: 0,
@@ -184,7 +184,7 @@ export const ProductsServer: ProductServer[] = [
     customID: ProductsType.serverProducts,
     price: 199,
     photo: [
-      "/products-server/start.png"
+      "/club-cards/START.png"
     ],
     id: 3,
     rebate: 0,
@@ -202,7 +202,7 @@ export const ProductsServer: ProductServer[] = [
     customID: ProductsType.serverProducts,
     price: 600,
     photo: [
-      "/products-server/silver.png"
+      "/club-cards/SILVER.png"
     ],
     id: 2,
     rebate: 499,
@@ -219,7 +219,7 @@ export const ProductsServer: ProductServer[] = [
     customID: ProductsType.serverProducts,
     price: 1200,
     photo: [
-      "/products-server/gold.png"
+      "/club-cards/GOLD.png"
     ],
     id: 1,
     rebate: 999,
@@ -237,7 +237,7 @@ export const ProductsServer: ProductServer[] = [
     customID: ProductsType.serverProducts,
     price: 2500,
     photo: [
-      "/products-server/platinum.png"
+      "/club-cards/PLATINUM.png"
     ],
     id: 5,
     rebate: 1999,

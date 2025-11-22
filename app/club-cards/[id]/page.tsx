@@ -7,11 +7,11 @@ import { Modal } from "@/app/components/Modal/Modal";
 import { ContactForm } from "@/app/components/ContactForm/ContactForm";
 import Script from "next/script";
 import Image from "next/image";
-import { ProductsServer } from "@/app/const/products";
+import { ClubCards } from "@/app/const/products";
 
 export default function ClubCard() {
   const { id } = useParams();
-  const product = ProductsServer.find((item) => String(item.id) === id);
+  const product = ClubCards.find((item) => String(item.id) === id);
 
   const [open, setOpen] = useState(false);
 

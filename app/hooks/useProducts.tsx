@@ -4,7 +4,7 @@ import useSWR from "swr";
 import { fetcher } from "../libs/fetcher";
 import { Product, ProductServer, ProductsType } from "../types";
 import { useMemo } from "react";
-import { ProductsServer, ProductsClient } from "../const/products";
+import { ClubCards, ProductsClient } from "../const/products";
 
 export const useProducts = () => {
   const { data, error, isLoading, mutate } = useSWR<ProductServer[]>(
