@@ -166,7 +166,7 @@ export const ProductsServer: ProductServer[] = [
     customID: ProductsType.serverProducts,
     price: 99,
     photo: [
-      "/products-server/base.PNG"
+      "/products-server/base.png"
     ],
     id: 4,
     rebate: 0,
@@ -184,7 +184,7 @@ export const ProductsServer: ProductServer[] = [
     customID: ProductsType.serverProducts,
     price: 199,
     photo: [
-      "/products-server/start.PNG"
+      "/products-server/start.png"
     ],
     id: 3,
     rebate: 0,
@@ -202,7 +202,7 @@ export const ProductsServer: ProductServer[] = [
     customID: ProductsType.serverProducts,
     price: 600,
     photo: [
-      "/products-server/silver.PNG"
+      "/products-server/silver.png"
     ],
     id: 2,
     rebate: 499,
@@ -219,7 +219,7 @@ export const ProductsServer: ProductServer[] = [
     customID: ProductsType.serverProducts,
     price: 1200,
     photo: [
-      "/products-server/gold.PNG"
+      "/products-server/gold.png"
     ],
     id: 1,
     rebate: 999,
@@ -237,7 +237,7 @@ export const ProductsServer: ProductServer[] = [
     customID: ProductsType.serverProducts,
     price: 2500,
     photo: [
-      "/products-server/platinum.PNG"
+      "/products-server/platinum.png"
     ],
     id: 5,
     rebate: 1999,
