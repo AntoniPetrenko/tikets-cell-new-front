@@ -16,7 +16,7 @@ export const Footer = () => {
         <Image src={logo} alt="logo" width={100} height={100} />
         <div className="flex justify-center items-center  gap-8">
           <Link
-            href="https://t.me/Club_Suport"
+            href="https://t.me/Automerch_Support"
             target="_blank"
             rel="noopener noreferrer"
           >

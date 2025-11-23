@@ -3,8 +3,8 @@ import { NavItem } from "../types";
 export const navItems: NavItem[] = [
   { label: "Головна", href: "/" },
   { label: "Каталог", href: "/catalog" },
-  { label: "Контакти", href: "/contacts" },
-  { label: "Клубні карти", href: "/club-cards"}
+  { label: "Клубні карти", href: "/club-cards"},
+  { label: "Контакти", href: "/contacts" }
 ];
 
 export const subNavItems: NavItem[] = [

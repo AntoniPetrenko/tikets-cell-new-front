@@ -43,7 +43,7 @@ export default function Contacts() {
         <div className="text-2xl">Підтримка 24/7</div>
 
         <Link
-          href="https://t.me/Club_Suport"
+          href="https://t.me/Automerch_Support"
           target="_blank"
           rel="noopener noreferrer"
         >
