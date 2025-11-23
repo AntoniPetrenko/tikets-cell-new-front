@@ -156,7 +156,7 @@ export const ProductsClient: Product[] = [
 
 export const ClubCards: ProductServer[] = [
   {
-    title: "Клубная карта Base",
+    title: "Клубна карта Base",
     description: "Стартовий рівень для тих, хто хоче спробувати автоклуб.",
     texts: [
       "Базові консультації з вибору авто",
@@ -173,7 +173,7 @@ export const ClubCards: ProductServer[] = [
     type: "Base"
   },
   {
-    title: "Клубная карта START",
+    title: "Клубна карта START",
     description: "Розширені можливості для активних користувачів.",
     texts: [
       "Все з BASE",
@@ -191,7 +191,7 @@ export const ClubCards: ProductServer[] = [
     type: "Start"
   },
    {
-    title: "Клубная карта SILVER",
+    title: "Клубна карта SILVER",
     description: "Перший преміальний рівень.",
     texts: [
       "Все з START",
@@ -209,7 +209,7 @@ export const ClubCards: ProductServer[] = [
     type: "Silver"
   },
   {
-    title: "Клубная карта GOLD",
+    title: "Клубна карта GOLD",
     description: "Максимум переваг для вимогливих клієнтів.",
     texts: [
       "Все з SILVER",
@@ -226,7 +226,7 @@ export const ClubCards: ProductServer[] = [
     type: "Gold"
   },
   {
-    title: "Клубная карта Platinum",
+    title: "Клубна карта Platinum",
     description: "Топовий рівень — VIP-доступ без обмежень.",
     texts: [
       "Все з GOLD",
