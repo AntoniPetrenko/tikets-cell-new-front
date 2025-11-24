@@ -14,6 +14,7 @@ export default function ClubCard() {
   const product = ClubCards.find((item) => String(item.id) === id);
 
   const [open, setOpen] = useState(false);
+  const [openIsBlock, setOpenIsBlock] = useState(false);
 
   return (
     <>
