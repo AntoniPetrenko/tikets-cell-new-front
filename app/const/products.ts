@@ -155,23 +155,23 @@ export const ProductsClient: Product[] = [
 
 
 export const ClubCards: ProductServer[] = [
-  {
-    title: "Клубна карта Base",
-    description: "Стартовий рівень для тих, хто хоче спробувати автоклуб.",
-    texts: [
-      "Базові консультації з вибору авто",
-      "Підбір стандартних запчастин",
-      "Доступ до базового контенту та оновлень"
-    ],
-    customID: ProductsType.serverProducts,
-    price: 99,
-    photo: [
-      "/club-cards/BASE.png"
-    ],
-    id: 4,
-    rebate: 0,
-    type: "Base"
-  },
+  // {
+  //   title: "Клубна карта Base",
+  //   description: "Стартовий рівень для тих, хто хоче спробувати автоклуб.",
+  //   texts: [
+  //     "Базові консультації з вибору авто",
+  //     "Підбір стандартних запчастин",
+  //     "Доступ до базового контенту та оновлень"
+  //   ],
+  //   customID: ProductsType.serverProducts,
+  //   price: 99,
+  //   photo: [
+  //     "/club-cards/BASE.png"
+  //   ],
+  //   id: 4,
+  //   rebate: 0,
+  //   type: "Base"
+  // },
   {
     title: "Клубна карта START",
     description: "Розширені можливості для активних користувачів.",
