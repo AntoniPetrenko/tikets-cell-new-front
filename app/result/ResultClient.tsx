@@ -15,6 +15,8 @@ export default function ResultClient() {
     const entries = Array.from(searchParams.entries()) as [string, string][];
     const paramsObj: PaymentInfo = Object.fromEntries(entries);
 
+    console.log(paramsObj);
+
     if (Object.keys(paramsObj).length > 0) {
       setInfo(paramsObj);
       const cleanUrl = window.location.pathname;
@@ -25,7 +27,7 @@ export default function ResultClient() {
   return (
     <div className="text-white pt-24 pr-24 pl-24 flex flex-col gap-8 w-full h-full flex justify-center items-center text-center">
       <div className="text-4xl">
-        Вітаємо! <br /> Ви придбали клубну карту.
+        Вітаємо! <br /> з успішною покупкою.
       </div>
     </div>
   );
