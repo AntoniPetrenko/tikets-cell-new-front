@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import { Modal } from "@/app/components/Modal/Modal";
 import { ProductsClient } from "@/app/const/products";
 import { FakeContactForm } from "@/app/components/FakeContactForm/FakeContactForm";
+import { ContactForm } from "@/app/components/ContactForm/ContactForm";
 
 export default function Product() {
   const { id } = useParams();
@@ -32,8 +33,11 @@ export default function Product() {
         </Button>
       </div>
 
-      <Modal isOpen={open} onClose={() => setOpen(false)}>
+      {/* <Modal isOpen={open} onClose={() => setOpen(false)}>
         <FakeContactForm onSuccess={() => setOpen(false)} />
+      </Modal> */}
+      <Modal isOpen={open} onClose={() => setOpen(false)}>
+        <ContactForm onSuccess={() => setOpen(false)} />
       </Modal>
     </div>
   );
