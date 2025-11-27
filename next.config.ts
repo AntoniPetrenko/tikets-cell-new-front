@@ -5,11 +5,11 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/card-info",
-        destination: "https://prodaytachky.com.ua/api/card-info",
+        destination: "https://automerch.com.ua/api/card-info",
       },
       {
         source: "/api/payment/:id*",
-        destination: "https://prodaytachky.com.ua/api/payment/:id*",
+        destination: "https://automerch.com.ua/api/payment/:id*",
       },
     ];
   },

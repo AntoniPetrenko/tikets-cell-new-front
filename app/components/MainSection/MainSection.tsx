@@ -1,6 +1,9 @@
 "use client";
 
+import { useProducts } from "@/app/hooks/useProducts";
+
 export const MainSection = () => {
+  useProducts();
   return (
     <section className=" w-full min-h-screen flex items-center justify-center">
       <div

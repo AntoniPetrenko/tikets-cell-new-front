@@ -113,8 +113,11 @@ export const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
     <>
       {openBlocked ? (
         <div className="text-black mb-4 mt-4 font-medium text-xl">
-          Клубні картки тимчасово недоступні! Ми вже працюємо над новим
-          надходженням. Слідкуйте за оновленнями!
+          {id !== undefined && Number(id) >= 0 && Number(id) <= 6
+            ? "Клубні карти"
+            : "Товари"}{" "}
+          тимчасово недоступні! Ми вже працюємо над новим надходженням.
+          Слідкуйте за оновленнями!
         </div>
       ) : (
         <Formik

@@ -13,7 +13,7 @@ export const ProductsClient: Product[] = [
       "/products-client/BMW_F10_F11_radiator_grille_3.png",
       "/products-client/BMW_F10_F11_radiator_grille_4.png"
     ],
-    id: 7,
+    id: 15,
     is_active: true,
     rebate: 0, 
     count_of_tickets: 0
@@ -30,7 +30,7 @@ export const ProductsClient: Product[] = [
       "/products-client/BMW_F30_F31_Diffuser_for_Dual_Exhaust_3.png",
       "/products-client/BMW_F30_F31_Diffuser_for_Dual_Exhaust_4.png"
     ],
-    id: 8,
+    id: 14,
     is_active: true,
     rebate: 0, 
     count_of_tickets: 0
@@ -46,7 +46,7 @@ export const ProductsClient: Product[] = [
       "/products-client/F30_F31_Radiator_Grille_3.png",
       "/products-client/F30_F31_Radiator_Grille_4.png"
     ],
-    id: 9,
+    id: 13,
     is_active: true,
     rebate: 0, 
     count_of_tickets: 0
@@ -61,7 +61,7 @@ export const ProductsClient: Product[] = [
       "/products-client/Fog_Lights_F10_E92_2.png",
       "/products-client/Fog_Lights_F10_E92_3.png",
     ],
-    id: 10,
+    id: 12,
     is_active: true,
     rebate: 0, 
     count_of_tickets: 0
@@ -93,7 +93,7 @@ export const ProductsClient: Product[] = [
       "/products-client/BMW_F10_M_Performance_Spoiler_3.png",
       "/products-client/BMW_F10_M_Performance_Spoiler_4.png",
     ],
-    id: 12,
+    id: 10,
     is_active: true,
     rebate: 0, 
     count_of_tickets: 0
@@ -108,7 +108,7 @@ export const ProductsClient: Product[] = [
       "/products-client/BMW_E46_radiator_grille_2.png",
       "/products-client/BMW_E46_radiator_grille_3.png",
     ],
-    id: 13,
+    id: 9,
     is_active: true,
     rebate: 0, 
     count_of_tickets: 0
@@ -126,7 +126,7 @@ export const ProductsClient: Product[] = [
       "/products-client/BMW_F10_F11_mirror_covers_5.jpg",
       "/products-client/BMW_F10_F11_mirror_covers_6.jpg",
     ],
-    id: 14,
+    id: 8,
     is_active: true,
     rebate: 0, 
     count_of_tickets: 0
@@ -145,7 +145,7 @@ export const ProductsClient: Product[] = [
       "/products-client/BMW_G20_mirror_covers_6.jpg",
       "/products-client/BMW_G20_mirror_covers_7.jpg",
     ],
-    id: 15,
+    id: 7,
     is_active: true,
     rebate: 0, 
     count_of_tickets: 0
@@ -173,14 +173,15 @@ export const ClubCards: ProductServer[] = [
   //   type: "Base"
   // },
   {
-    title: "Клубна карта START",
-    description: "Розширені можливості для активних користувачів.",
+    title: "START — Базовий клубний рівень",
+    description: "Карта START включає:",
     texts: [
-      "Все з BASE",
-      "Розширений підбір запчастин",
-      "Підбір авто по кількох варіантах",
-      "Ранній доступ до контенту та новинок"
+      "• доступ до базових бонусів на покупки;",
+      "• стандартний пріоритет у підборі запчастин;",
+      "• можливість швидше отримувати консультацію щодо сумісності деталей;",
+      "• рекомендації по вибору оптимальних запчастин під бюджет."
     ],
+    subTitle: "START — це зручний початковий рівень сервісу для наших покупців.",
     customID: ProductsType.serverProducts,
     price: 199,
     photo: [
@@ -191,14 +192,15 @@ export const ClubCards: ProductServer[] = [
     type: "Start"
   },
    {
-    title: "Клубна карта SILVER",
-    description: "Перший преміальний рівень.",
+    title: "⭐ SILVER — Рівень розширених можливостей",
+    description: "Карта SILVER надає:",
     texts: [
-      "Все з START",
-      "Підбір авто «під ключ» знижка -15%",
-      "Перевірка варіантів по VIN",
-      "Персональні рекомендації від спеціаліста"
+      "• більші бонуси та покращені умови для повторних покупок;",
+      "• прискорений доступ до консультанта магазину;",
+      "• рекомендації щодо альтернативних запчастин і наявності на складах;",
+      "• допомогу у підборі деталей під конкретні задачі."
     ],
+    subTitle: "Це оптимальний вибір для клієнтів, які регулярно замовляють автозапчастини.",
     customID: ProductsType.serverProducts,
     price: 600,
     photo: [
@@ -209,13 +211,16 @@ export const ClubCards: ProductServer[] = [
     type: "Silver"
   },
   {
-    title: "Клубна карта GOLD",
-    description: "Максимум переваг для вимогливих клієнтів.",
+    title: "⭐ GOLD — Преміальний рівень обслуговування",
+    description: "Карта GOLD включає:",
     texts: [
-      "Все з SILVER",
-      "Пріоритетна обробка запитів",
-      "Місячні бонуси та подарунки"
+      "• пріоритетний підбір запчастин та бронювання позицій;",
+      "• персональний супровід від спеціаліста магазину;",
+      "• спеціальні ціни на частину позицій;",
+      "• допомогу у підборі складних або рідкісних комплектуючих;",
+      "• рекомендації щодо найвигідніших варіантів постачання."
     ],
+    subTitle: "Цей рівень створений для клієнтів, яким важлива швидкість та персональна увага.",
     customID: ProductsType.serverProducts,
     price: 1200,
     photo: [
@@ -226,14 +231,16 @@ export const ClubCards: ProductServer[] = [
     type: "Gold"
   },
   {
-    title: "Клубна карта Platinum",
-    description: "Топовий рівень — VIP-доступ без обмежень.",
+    title: "⭐ PLATINUM — Максимальні переваги магазину",
+    description: "Карта PLATINUM надає:",
     texts: [
-      "Все з GOLD",
-      "Персональний авто-консультант 24/7",
-      "Повний супровід покупки",
-      "Персональний підбір запчастин без лімітів"
+      "• першочергове обслуговування та пріоритет у всіх замовленнях;",
+      "• індивідуальний супровід від персонального менеджера;",
+      "• доступ до ексклюзивних пропозицій та закритих умов;",
+      "• допомогу у замовленні рідкісних деталей та складних комплектуючих;",
+      "• максимальні бонуси та найвигідніші умови магазину."
     ],
+    subTitle: "PLATINUM — найвищий рівень сервісу, що доступний у нашому магазині автозапчастин.",
     customID: ProductsType.serverProducts,
     price: 2500,
     photo: [

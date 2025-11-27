@@ -31,9 +31,9 @@ export const CardServerProduct: React.FC<CardProps> = ({ product }) => {
         </div>
 
         <div className="font-semibold text-2xl">{product.title}</div>
-        <div className="font-normal text-xs text-gray-300 mb-4 mt-5">
+        {/* <div className="font-normal text-xs text-gray-300 mb-4 mt-5">
           {product.description}
-        </div>
+        </div> */}
         <div className="flex justify-between items-center mt-auto gap-4">
           <Button
             variant="pink"
