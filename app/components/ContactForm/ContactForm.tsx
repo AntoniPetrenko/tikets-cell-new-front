@@ -97,6 +97,7 @@ export const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
         .on("liqpay.close", function () {
           if ((window as any).LiqPayCheckout.lastStatus === "success") {
             const paymentInfo = (window as any).LiqPayCheckout?.info || {};
+            paymentInfo.id = id;
             const query = new URLSearchParams(
               paymentInfo as Record<string, string>
             ).toString();
