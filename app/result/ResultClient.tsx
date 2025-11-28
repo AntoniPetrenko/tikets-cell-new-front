@@ -20,15 +20,13 @@ export default function ResultClient() {
 
     if (Object.keys(paramsObj).length > 0) {
       setInfo(paramsObj);
-      const cleanUrl = window.location.pathname;
-      window.history.replaceState({}, "", cleanUrl);
     }
   }, [searchParams]);
 
   const getProduct = (): string => {
     const products = [...ProductsClient, ...ClubCards];
     const product = products.find(
-      (item) => Number(item.id) === Number(info?.id)
+      (item) => Number(item.id) === Number(info?.paymentId)
     );
     const getLevel = (text?: string): string => {
       if (!text) return "";

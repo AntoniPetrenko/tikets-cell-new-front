@@ -8,7 +8,6 @@ import Input from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { enqueueSnackbar } from "notistack";
 import { Button } from "../Button/Button";
-import { div } from "three/tsl";
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -16,27 +15,16 @@ const validationSchema = Yup.object({
     .required("Обовʼязкове поле"),
   email: Yup.string().email("Невірний email").required("Обовʼязкове поле"),
   tel: Yup.string()
-    .matches(/^\+?[0-9\s\-()]{7,20}$/, "Має бути дійсний номер телефону")
-    .required("Потрібно вказати номер телефону"),
+    .required("Потрібно вказати номер телефону")
+    .test(
+      "exactLength",
+      "Номер телефону повинен містити рівно 12 цифр",
+      (value) => {
+        const numbers = value?.replace(/\D/g, "") || "";
+        return numbers.length === 12;
+      }
+    ),
 });
-
-const formatPhone = (value: string) => {
-  let numbers = value.replace(/\D/g, "");
-  if (numbers.startsWith("38")) numbers = numbers.slice(2);
-  if (numbers.startsWith("0")) numbers = numbers.slice(1);
-  numbers = numbers.slice(0, 9);
-  if (numbers.length <= 2) return `+38 0${numbers}`;
-  if (numbers.length <= 5)
-    return `+38 0${numbers.slice(0, 2)} ${numbers.slice(2)}`;
-  if (numbers.length <= 7)
-    return `+38 0${numbers.slice(0, 2)} ${numbers.slice(2, 5)} ${numbers.slice(
-      5
-    )}`;
-  return `+38 0${numbers.slice(0, 2)} ${numbers.slice(2, 5)} ${numbers.slice(
-    5,
-    9
-  )}`;
-};
 
 export const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const { id } = useParams();
@@ -96,11 +84,10 @@ export const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
         })
         .on("liqpay.close", function () {
           if ((window as any).LiqPayCheckout.lastStatus === "success") {
-            const paymentInfo = (window as any).LiqPayCheckout?.info || {};
-            paymentInfo.id = id;
-            const query = new URLSearchParams(
-              paymentInfo as Record<string, string>
-            ).toString();
+            const query = new URLSearchParams({ paymentId: id } as Record<
+              string,
+              string
+            >).toString();
             onSuccess();
             router.push(`/result?${query}`);
           }
@@ -125,9 +112,16 @@ export const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
           initialValues={initialValues}
           validationSchema={validationSchema}
           validateOnMount
+          validateOnBlur
           onSubmit={(values) => handlePayment(values)}
         >
-          {({ values, setFieldValue, isValid, isSubmitting }) => {
+          {({
+            values,
+            setFieldValue,
+            isValid,
+            isSubmitting,
+            setFieldTouched,
+          }) => {
             const isDisabled =
               !isValid ||
               isSubmitting ||
@@ -154,15 +148,21 @@ export const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
                 <div>
                   <label className="block text-sm font-medium">Телефон</label>
                   <Field name="tel">
-                    {() => (
+                    {({ field }: any) => (
                       <Input
                         defaultCountry="UA"
                         countries={["UA"]}
-                        value={values.tel}
                         international
-                        onChange={(value) =>
-                          setFieldValue("tel", formatPhone(value || ""))
-                        }
+                        value={field.value || ""}
+                        onChange={(incomingValue: string | undefined) => {
+                          const digits = (incomingValue || "").replace(
+                            /\D/g,
+                            ""
+                          );
+                          setFieldValue("tel", "+" + digits);
+                          setFieldTouched("tel", true, false);
+                        }}
+                        onBlur={() => setFieldTouched("tel", true, true)}
                         placeholder="+380 XX XXX XXXX"
                         className="phone-input-custom"
                       />

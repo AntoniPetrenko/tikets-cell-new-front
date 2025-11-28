@@ -28,7 +28,7 @@ export default function NavBar() {
             <div className="md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-white hover:text-pink-500 focus:outline-none"
+                className="text-white hover:text-orange-500 focus:outline-none"
                 aria-label="Toggle menu"
               >
                 {isOpen ? <X size={26} /> : <Menu size={26} />}
