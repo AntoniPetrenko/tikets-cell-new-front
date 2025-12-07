@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import ResultClient from "./ResultClient";
+import { FullScreenLoader } from "../components/FullScreenLoader/FullScreenLoader";
 
 const SearchFallback = () => {
   return <div>Обробка результату платежу...</div>;
@@ -7,7 +8,7 @@ const SearchFallback = () => {
 
 export default function ResultPage() {
   return (
-    <Suspense fallback={<SearchFallback />}>
+    <Suspense fallback={<FullScreenLoader />}>
       <ResultClient />
     </Suspense>
   );

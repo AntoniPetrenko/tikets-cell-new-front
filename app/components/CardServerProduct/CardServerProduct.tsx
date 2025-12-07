@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import { Button } from "../Button/Button";
-import { ProductServer } from "@/app/types";
+import { Product } from "@/app/types";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 interface CardProps {
-  product: ProductServer;
+  product: Product;
 }
 
 export const CardServerProduct: React.FC<CardProps> = ({ product }) => {
@@ -36,11 +36,11 @@ export const CardServerProduct: React.FC<CardProps> = ({ product }) => {
         </div> */}
         <div className="flex justify-between items-center mt-auto gap-4">
           <Button
-            variant="pink"
+            variant="orange"
             sizeText="small"
             onClick={() => router.push(`/club-cards/${product.id}`)}
           >
-            Читати далі
+            Детальніше
           </Button>
           {product.rebate != 0 ? (
             <div>
@@ -51,12 +51,14 @@ export const CardServerProduct: React.FC<CardProps> = ({ product }) => {
                 </span>{" "}
                 <span>₴</span>
               </div>
-              <div className="font-bold text-4xl text-red-500">
-                {product.rebate} ₴
+              <div className="font-medium text-2xl text-red-500">
+                {product.rebate} <span className="text-lg">₴</span>
               </div>
             </div>
           ) : (
-            <div className="font-bold text-4xl">{product.price} ₴</div>
+            <div className="font-medium text-2xl">
+              {product.price} <span className="text-lg">₴</span>
+            </div>
           )}
         </div>
       </div>

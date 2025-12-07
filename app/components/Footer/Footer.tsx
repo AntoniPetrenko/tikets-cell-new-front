@@ -66,6 +66,7 @@ export const Footer = () => {
         <Image src={Visa} alt="visa" width={50} height={16} />
         <Image src={Maestro} alt="master-car" width={90} height={25} />
       </div>
+      <div className="text-white text-base">© Все права защищены 2025-2025</div>
     </div>
   );
 };

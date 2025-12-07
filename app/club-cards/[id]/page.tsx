@@ -1,28 +1,42 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/app/components/Button/Button";
 import { useParams } from "next/navigation";
-import { Modal } from "@/app/components/Modal/Modal";
-import { ContactForm } from "@/app/components/ContactForm/ContactForm";
 import Script from "next/script";
 import Image from "next/image";
-import { ClubCards } from "@/app/const/products";
+import { FullScreenLoader } from "@/app/components/FullScreenLoader/FullScreenLoader";
+import { useProducts } from "@/app/hooks/useProducts";
+import { useProductStore } from "@/app/store/productStore";
 
 export default function ClubCard() {
   const { id } = useParams();
-  const product = ClubCards.find((item) => String(item.id) === id);
+  const { clubCards, isLoading } = useProducts();
 
-  const [open, setOpen] = useState(false);
-  const [openIsBlock, setOpenIsBlock] = useState(false);
+  const product = clubCards.find((item) => String(item.id) === id);
+
+  const addToCartStore = useProductStore((state) => state.addToCart);
+  const openSidebar = useProductStore((state) => state.openSidebar);
+
+  if (isLoading) return <FullScreenLoader />;
+
+  const addToCart = () => {
+    if (!product) return;
+
+    addToCartStore({
+      id: product.id,
+      title: product.title,
+      price: product.rebate || product.price,
+      qty: 1,
+      image: product.photo?.[0] || "",
+      customId: product.customID,
+    });
+
+    openSidebar();
+  };
 
   return (
     <>
-      <Script
-        src="//static.liqpay.ua/libjs/checkout.js"
-        strategy="afterInteractive"
-      />
-      <div className="pt-24 flex flex-col  justify-center items-center text-white">
+      <div className="pt-24 flex flex-col justify-center items-center text-white">
         <div className="flex flex-col md:flex-row justify-center items-center gap-8 p-3">
           <Image
             width={300}
@@ -34,39 +48,35 @@ export default function ClubCard() {
           <div className="w-full flex flex-col gap-6 p-3">
             <h1 className="text-3xl font-bold">{product?.title}</h1>
             <p className="text-xl font-medium">{product?.description}</p>
-            {product?.texts.map((item) => (
+
+            {product?.texts?.map((item) => (
               <p key={item} className="text-xl font-medium">
                 {item}
               </p>
             ))}
-            {product?.rebate != 0 ? (
+
+            {product?.rebate && product.rebate !== 0 ? (
               <div>
-                {" "}
-                <div>
-                  <span className="line-through decoration-2 decoration-red-500">
-                    {product?.price}
-                  </span>{" "}
-                  <span>₴</span>
+                <div className="line-through decoration-2 decoration-red-500">
+                  {product.price} <span className="text-lg">₴</span>
                 </div>
-                <div className="font-bold text-4xl text-red-500">
-                  {product?.rebate} ₴
+                <div className="font-bold text-2xl text-red-500">
+                  {product.rebate} <span className="text-lg">₴</span>
                 </div>
               </div>
             ) : (
-              <div className="font-bold text-4xl">{product.price} ₴</div>
+              <div className="font-bold text-2xl">
+                {product?.price} <span className="text-lg">₴</span>
+              </div>
             )}
           </div>
         </div>
 
         <div className="pt-12">
-          <Button variant="pink" onClick={() => setOpen(true)}>
-            Замовити товар
+          <Button variant="orange" onClick={addToCart}>
+            Додати в кошик
           </Button>
         </div>
-
-        <Modal isOpen={open} onClose={() => setOpen(false)}>
-          <ContactForm onSuccess={() => setOpen(false)} />
-        </Modal>
       </div>
     </>
   );

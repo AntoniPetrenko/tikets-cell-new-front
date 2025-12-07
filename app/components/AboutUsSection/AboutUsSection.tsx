@@ -1,80 +1,45 @@
 "use client";
 
+import AboutUs from "../../../public/about_us_img.png";
 import Image from "next/image";
-import BmwSrc from "../../../public/bmw-m5.jpg";
+import { Button } from "../Button/Button";
+import { useRouter } from "next/navigation";
 
-export const AboutUsSection = () => {
+export function AboutUsSection() {
+  const router = useRouter();
   return (
-    <section className="relative w-full min-h-screen flex items-center justify-center">
-      <Image
-        src={BmwSrc}
-        alt="Car background"
-        fill
-        className="object-cover object-center z-10"
-        priority
-      />
+    <section className="w-full bg-[#121212] text-white py-16 px-4">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <div className="relative w-full h-[300px] sm:h-[400px] lg:h-[500px] rounded-xl overflow-hidden">
+          <Image
+            src={AboutUs}
+            alt="Auto Hub Car"
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="space-y-6">
+          <h2 className="text-3xl md:text-4xl font-bold  mt-7 leading-snug">
+            Клубні карти <span className="text-orange-500 uppercase">Auto</span>
+            <span className="uppercase">MerchClub</span>
+            <p className="font-medium text-lg mt-3">
+              Розширений сервіс для покупців нашого магазину автозапчастин.
+            </p>
+          </h2>
+          <p className="font-medium text-2xl md:text-3xl  mt-20">
+            Додаткові переваги для клієнтів:
+          </p>
+          <p className="font-medium text-lg mt-3">— пріоритетний підбір;</p>
+          <p className="font-medium text-lg mt-3">
+            — бонуси та спеціальні ціни;
+          </p>
+          <p className="font-medium text-lg mt-3">— персональна підтримка.</p>
 
-      <div className="w-full md:h-auto relative rounded-lg overflow-hidden  md:m-10">
-        <div className="relative z-10 text-white text-left p-8 flex flex-col gap-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-center">
-            Ми професійно підбираємо авто під будь-який бюджет: від доступних
-            варіантів до преміальних моделей.
-          </h1>
-          <div>
-            <p className="font-medium text-lg text-left">Що ми робимо:</p>
-            <p className="font-medium text-lg text-left">
-              • Пошук та формування списку найкращих пропозицій
-            </p>
-            <p className="font-medium text-lg text-left">
-              • Перевірка авто по VIN та історії
-            </p>
-            <p className="font-medium text-lg text-left">
-              • Повна діагностика: кузов, електроніка, технічний стан
-            </p>
-          </div>
-
-          <div>
-            <p className="font-medium text-lg text-left">
-              Підбираємо якісні запчастини для будь-якого автомобіля.
-            </p>
-            {/* <p className="font-medium text-lg text-left">
-              • Оригінал або надійні аналоги
-            </p>
-            <p className="font-medium text-lg text-left">
-              • Ураховуємо бюджет, пробіг та стиль використання авто
-            </p>
-            <p className="font-medium text-lg text-left">
-              • Пояснюємо, що краще поставити саме у твоєму випадку
-            </p>
-            <p className="font-medium text-lg text-left">
-              • Формуємо повний перелік деталей
-            </p> */}
-          </div>
-          {/* 
-          <div className="font-medium text-lg text-left">
-            Ти отримуєш лише ті запчастини, які підходять точно та без переплат.
-          </div> */}
-
-          <div className="font-medium text-lg text-left">
-            <p className="font-medium text-lg text-left font-bold">ЧОМУ МИ</p>
-            <p className="font-medium text-lg text-left">
-              ✔ Швидко — відповідаємо того ж дня
-            </p>
-            <p className="font-medium text-lg text-left">
-              ✔ Професійно — понад 10 років у авто-сфері
-            </p>
-            <p className="font-medium text-lg text-left">
-              ✔ Чесно — працюємо тільки в інтересах клієнта
-            </p>
-            <p className="font-medium text-lg text-left">
-              ✔ Зручно — усі послуги онлайн
-            </p>
-            <p className="font-medium text-lg text-left">
-              ✔ Вигідно — клубні карти економлять до 80% витрат на послуги
-            </p>
-          </div>
+          <Button variant="orange" onClick={() => router.push(`/club-cards/`)}>
+            Дізнатись більше
+          </Button>
         </div>
       </div>
     </section>
   );
-};
+}

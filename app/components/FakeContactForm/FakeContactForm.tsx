@@ -50,7 +50,7 @@ export const FakeContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
             найближчим часом.
           </div>
 
-          <Button onClick={onSuccess} variant="pink">
+          <Button onClick={onSuccess} variant="orange">
             Закрити
           </Button>
         </div>
@@ -98,7 +98,7 @@ export const FakeContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
               <Button
                 type="submit"
-                variant="pink"
+                variant="orange"
                 disabled={!isValid || !values.name || !values.tel}
                 className={`${
                   !isValid || !values.name || !values.tel

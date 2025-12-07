@@ -14,24 +14,28 @@ export interface ProductServer {
   customID: ProductsType,
   photo: string[],
   type: string,
-  subTitle: string
+  subTitle: string,
+  is_active: boolean,
+  count_of_tickets: number
 }
 
 export enum ProductsType {
-  serverProducts = "serverProducts",
-  clientProducts = "clientProducts"
+  clubCarts = "clubCarts",
+  products = "products"
 }
 
 export interface Product {
   id: number;
   customID: ProductsType;
-  title: string;
+  title: string | undefined;
   photo: string[];
-  description: string;
+  description: string | undefined;
   price: number;
   rebate: number;
   count_of_tickets: number;
   is_active: boolean;
+  texts?: string[] | undefined,
+  subTitle?: string  | undefined,
 }
 
 

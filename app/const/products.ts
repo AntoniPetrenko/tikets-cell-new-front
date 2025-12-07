@@ -1,11 +1,146 @@
 import { Product, ProductServer, ProductsType } from "../types";
 
+export const ImagesProducts:  { [key: string]: string[] } = {
+  15: [
+      "/products-client/BMW_F10_F11_radiator_grille_1.png",
+      "/products-client/BMW_F10_F11_radiator_grille_2.png",
+      "/products-client/BMW_F10_F11_radiator_grille_3.png",
+      "/products-client/BMW_F10_F11_radiator_grille_4.png"
+    ],
+  14: [
+      "/products-client/BMW_F30_F31_Diffuser_for_Dual_Exhaust_1.png",
+      "/products-client/BMW_F30_F31_Diffuser_for_Dual_Exhaust_2.png",
+      "/products-client/BMW_F30_F31_Diffuser_for_Dual_Exhaust_3.png",
+      "/products-client/BMW_F30_F31_Diffuser_for_Dual_Exhaust_4.png"
+    ],
+  13: [
+      "/products-client/F30_F31_Radiator_Grille_1.png",
+      "/products-client/F30_F31_Radiator_Grille_2.png",
+      "/products-client/F30_F31_Radiator_Grille_3.png",
+      "/products-client/F30_F31_Radiator_Grille_4.png"
+    ],
+  12: [
+      "/products-client/Fog_Lights_F10_E92_1.png",
+      "/products-client/Fog_Lights_F10_E92_2.png",
+      "/products-client/Fog_Lights_F10_E92_3.png",
+    ],
+  11: [
+      "/products-client/BMW_E60_M_Mirror_Caps_1.png",
+      "/products-client/BMW_E60_M_Mirror_Caps_2.png",
+      "/products-client/BMW_E60_M_Mirror_Caps_3.png",
+      "/products-client/BMW_E60_M_Mirror_Caps_4.png",
+    ],
+  10: [
+      "/products-client/BMW_F10_M_Performance_Spoiler_1.png",
+      "/products-client/BMW_F10_M_Performance_Spoiler_2.png",
+      "/products-client/BMW_F10_M_Performance_Spoiler_3.png",
+      "/products-client/BMW_F10_M_Performance_Spoiler_4.png",
+    ],
+  9: [
+      "/products-client/BMW_E46_radiator_grille_1.png",
+      "/products-client/BMW_E46_radiator_grille_2.png",
+      "/products-client/BMW_E46_radiator_grille_3.png",
+    ],
+  8: [
+      "/products-client/BMW_F10_F11_mirror_covers_1.jpg",
+      "/products-client/BMW_F10_F11_mirror_covers_2.jpg",
+      "/products-client/BMW_F10_F11_mirror_covers_3.jpg",
+      "/products-client/BMW_F10_F11_mirror_covers_4.jpg",
+      "/products-client/BMW_F10_F11_mirror_covers_5.jpg",
+      "/products-client/BMW_F10_F11_mirror_covers_6.jpg",
+    ],
+  7: [
+      "/products-client/BMW_G20_mirror_covers_1.jpg",
+      "/products-client/BMW_G20_mirror_covers_2.jpg",
+      "/products-client/BMW_G20_mirror_covers_3.jpg",
+      "/products-client/BMW_G20_mirror_covers_4.jpg",
+      "/products-client/BMW_G20_mirror_covers_5.jpg",
+      "/products-client/BMW_G20_mirror_covers_6.jpg",
+      "/products-client/BMW_G20_mirror_covers_7.jpg",
+    ],
+  5: [
+      "/club-cards/PLATINUM.png"
+    ],
+  4: [
+       "/club-cards/BASE.png"  
+    ],
+  3: [
+      "/club-cards/START.png"
+    ],
+  2: [
+      "/club-cards/SILVER.png"
+    ],
+  1: [
+      "/club-cards/GOLD.png"
+    ],
+  
+}
+
+export const TextsClubCards = {
+  1: {
+      title: "⭐ GOLD — Преміальний рівень обслуговування",
+      description: "Карта GOLD включає:",
+      texts: [
+      "• пріоритетний підбір запчастин та бронювання позицій;",
+      "• персональний супровід від спеціаліста магазину;",
+      "• спеціальні ціни на частину позицій;",
+      "• допомогу у підборі складних або рідкісних комплектуючих;",
+      "• рекомендації щодо найвигідніших варіантів постачання."
+    ],
+    subTitle: "Цей рівень створений для клієнтів, яким важлива швидкість та персональна увага.",
+  },
+  2: {
+    title: "⭐ SILVER — Рівень розширених можливостей",
+    description: "Карта SILVER надає:",
+    texts: [
+      "• більші бонуси та покращені умови для повторних покупок;",
+      "• прискорений доступ до консультанта магазину;",
+      "• рекомендації щодо альтернативних запчастин і наявності на складах;",
+      "• допомогу у підборі деталей під конкретні задачі."
+    ],
+    subTitle: "Це оптимальний вибір для клієнтів, які регулярно замовляють автозапчастини.",
+  },
+  3: {
+    title: "START — Базовий клубний рівень",
+    description: "Карта START включає:",
+    texts: [
+      "• доступ до базових бонусів на покупки;",
+      "• стандартний пріоритет у підборі запчастин;",
+      "• можливість швидше отримувати консультацію щодо сумісності деталей;",
+      "• рекомендації по вибору оптимальних запчастин під бюджет."
+    ],
+    subTitle: "START — це зручний початковий рівень сервісу для наших покупців.",
+  },
+  4: {
+      title: "Клубна карта Base",
+      description: "Стартовий рівень для тих, хто хоче спробувати автоклуб.",
+      texts: [
+        "• базові консультації з вибору авто",
+        "• підбір стандартних запчастин",
+        "• доступ до базового контенту та оновлень"
+      ],
+      subTitle: ""
+    },
+  5: {
+    title: "⭐ PLATINUM — Максимальні переваги магазину",
+    description: "Карта PLATINUM надає:",
+    texts: [
+      "• першочергове обслуговування та пріоритет у всіх замовленнях;",
+      "• індивідуальний супровід від персонального менеджера;",
+      "• доступ до ексклюзивних пропозицій та закритих умов;",
+      "• допомогу у замовленні рідкісних деталей та складних комплектуючих;",
+      "• максимальні бонуси та найвигідніші умови магазину."
+    ],
+    subTitle: "PLATINUM — найвищий рівень сервісу, що доступний у нашому магазині автозапчастин.",
+  }
+}
+
 
 export const ProductsClient: Product[] = [
   {
     title: "Решітка радіатора BMW F10/F11",
     description: "Решітка радіатора BMW F10/F11 надає автомобілю стильного та агресивного вигляду. Виготовлена з високоякісних матеріалів, вона забезпечує довговічність та надійність. Легко встановлюється і ідеально підходить для заміни оригінальної решітки.",
-    customID: ProductsType.clientProducts,
+    customID: ProductsType.products,
     price: 1399,
     photo: [
       "/products-client/BMW_F10_F11_radiator_grille_1.png",
@@ -22,7 +157,7 @@ export const ProductsClient: Product[] = [
   {
     title: "Дифузор BMW F30/F31 під подвійний вихлоп",
     description: "Дифузор BMW F30/F31 під подвійний вихлоп надає автомобілю спортивного та стильного вигляду. Виготовлений з якісних матеріалів для довговічності та надійності. Легко встановлюється і ідеально підходить для заміни оригінальної деталі.",
-    customID: ProductsType.clientProducts,
+    customID: ProductsType.products,
     price: 2950,
     photo: [
       "/products-client/BMW_F30_F31_Diffuser_for_Dual_Exhaust_1.png",
@@ -38,7 +173,7 @@ export const ProductsClient: Product[] = [
   {
     title: "Решітка радіатора F30/F31",
     description: "Решітка радіатора F30/F31 надає автомобілю стильного та агресивного вигляду. Виготовлена з міцних матеріалів для довговічності та надійності. Легка у встановленні ідеально підходить для заміни оригінальної решітки.",
-    customID: ProductsType.clientProducts,
+    customID: ProductsType.products,
     price: 1299,
     photo: [
       "/products-client/F30_F31_Radiator_Grille_1.png",
@@ -54,7 +189,7 @@ export const ProductsClient: Product[] = [
   {
     title: "Протитуманні фари F10/E92",
     description: "Протитуманні фари F10/E92 забезпечують кращу видимість у тумані та поганих погодних умовах. Виготовлені з високоякісних матеріалів для надійності та довговічності. Легко встановлюються і підходять для заміни оригінальних фар.",
-    customID: ProductsType.clientProducts,
+    customID: ProductsType.products,
     price: 1999,
     photo: [
       "/products-client/Fog_Lights_F10_E92_1.png",
@@ -69,7 +204,7 @@ export const ProductsClient: Product[] = [
   {
     title: "Накладки M на дзеркала BMW E60",
     description: "Накладки M на дзеркала BMW E60 надають автомобілю спортивного та стильного вигляду. Виготовлені з високоякісних матеріалів для довговічності та надійності.",
-    customID: ProductsType.clientProducts,
+    customID: ProductsType.products,
     price: 1199,
     photo: [
       "/products-client/BMW_E60_M_Mirror_Caps_1.png",
@@ -85,7 +220,7 @@ export const ProductsClient: Product[] = [
    {
     title: "Спойлер BMW F10 M Performance",
     description: "Спойлер BMW F10 M Performance надає автомобілю агресивного та спортивного вигляду. Виготовлений з високоякісних матеріалів для довговічності та надійності. Легко встановлюється і ідеально підходить для заміни або оновлення оригінального спойлера.",
-    customID: ProductsType.clientProducts,
+    customID: ProductsType.products,
     price: 1999,
     photo: [
       "/products-client/BMW_F10_M_Performance_Spoiler_1.png",
@@ -101,7 +236,7 @@ export const ProductsClient: Product[] = [
   {
     title: "Решітка радіатор BMW e46",
     description: "Решітка радіатора BMW E46 – це деталь передньої частини автомобіля, яка захищає радіатор від пошкоджень та забезпечує потік повітря для охолодження двигуна. Вона також є важливим елементом дизайну, який надає автомобілю характерний зовнішній вигляд. Цю деталь можна легко замінити при необхідності ремонту або оновлення стилю.",
-    customID: ProductsType.clientProducts,
+    customID: ProductsType.products,
     price: 1300,
     photo: [
       "/products-client/BMW_E46_radiator_grille_1.png",
@@ -116,7 +251,7 @@ export const ProductsClient: Product[] = [
   {
     title: "Накладки на дзеркала BMW F10/F11",
     description: "Накладки на дзеркала BMW F10/F11 – це декоративні та захисні елементи, що встановлюються на зовнішні дзеркала автомобіля. Вони захищають корпус дзеркала від подряпин і невеликих пошкоджень, а також надають машині більш стильний та сучасний вигляд. У разі необхідності накладки можна легко замінити.",
-    customID: ProductsType.clientProducts,
+    customID: ProductsType.products,
     price: 1400,
     photo: [
       "/products-client/BMW_F10_F11_mirror_covers_1.jpg",
@@ -134,7 +269,7 @@ export const ProductsClient: Product[] = [
    {
     title: "Накладки на дзеркала BMW g20",
     description: "Накладки на дзеркала BMW G20 – це стильні та функціональні деталі, які встановлюються на зовнішні дзеркала автомобіля. Вони захищають корпус дзеркал від подряпин та невеликих ушкоджень, а також підкреслюють сучасний дизайн автомобіля. Такі накладки легко замінюються при необхідності.",
-    customID: ProductsType.clientProducts,
+    customID: ProductsType.products,
     price: 1600,
     photo: [
       "/products-client/BMW_G20_mirror_covers_1.jpg",
@@ -154,100 +289,100 @@ export const ProductsClient: Product[] = [
 
 
 
-export const ClubCards: ProductServer[] = [
-  // {
-  //   title: "Клубна карта Base",
-  //   description: "Стартовий рівень для тих, хто хоче спробувати автоклуб.",
-  //   texts: [
-  //     "Базові консультації з вибору авто",
-  //     "Підбір стандартних запчастин",
-  //     "Доступ до базового контенту та оновлень"
-  //   ],
-  //   customID: ProductsType.serverProducts,
-  //   price: 99,
-  //   photo: [
-  //     "/club-cards/BASE.png"
-  //   ],
-  //   id: 4,
-  //   rebate: 0,
-  //   type: "Base"
-  // },
-  {
-    title: "START — Базовий клубний рівень",
-    description: "Карта START включає:",
-    texts: [
-      "• доступ до базових бонусів на покупки;",
-      "• стандартний пріоритет у підборі запчастин;",
-      "• можливість швидше отримувати консультацію щодо сумісності деталей;",
-      "• рекомендації по вибору оптимальних запчастин під бюджет."
-    ],
-    subTitle: "START — це зручний початковий рівень сервісу для наших покупців.",
-    customID: ProductsType.serverProducts,
-    price: 199,
-    photo: [
-      "/club-cards/START.png"
-    ],
-    id: 3,
-    rebate: 0,
-    type: "Start"
-  },
-   {
-    title: "⭐ SILVER — Рівень розширених можливостей",
-    description: "Карта SILVER надає:",
-    texts: [
-      "• більші бонуси та покращені умови для повторних покупок;",
-      "• прискорений доступ до консультанта магазину;",
-      "• рекомендації щодо альтернативних запчастин і наявності на складах;",
-      "• допомогу у підборі деталей під конкретні задачі."
-    ],
-    subTitle: "Це оптимальний вибір для клієнтів, які регулярно замовляють автозапчастини.",
-    customID: ProductsType.serverProducts,
-    price: 600,
-    photo: [
-      "/club-cards/SILVER.png"
-    ],
-    id: 2,
-    rebate: 499,
-    type: "Silver"
-  },
-  {
-    title: "⭐ GOLD — Преміальний рівень обслуговування",
-    description: "Карта GOLD включає:",
-    texts: [
-      "• пріоритетний підбір запчастин та бронювання позицій;",
-      "• персональний супровід від спеціаліста магазину;",
-      "• спеціальні ціни на частину позицій;",
-      "• допомогу у підборі складних або рідкісних комплектуючих;",
-      "• рекомендації щодо найвигідніших варіантів постачання."
-    ],
-    subTitle: "Цей рівень створений для клієнтів, яким важлива швидкість та персональна увага.",
-    customID: ProductsType.serverProducts,
-    price: 1200,
-    photo: [
-      "/club-cards/GOLD.png"
-    ],
-    id: 1,
-    rebate: 999,
-    type: "Gold"
-  },
-  {
-    title: "⭐ PLATINUM — Максимальні переваги магазину",
-    description: "Карта PLATINUM надає:",
-    texts: [
-      "• першочергове обслуговування та пріоритет у всіх замовленнях;",
-      "• індивідуальний супровід від персонального менеджера;",
-      "• доступ до ексклюзивних пропозицій та закритих умов;",
-      "• допомогу у замовленні рідкісних деталей та складних комплектуючих;",
-      "• максимальні бонуси та найвигідніші умови магазину."
-    ],
-    subTitle: "PLATINUM — найвищий рівень сервісу, що доступний у нашому магазині автозапчастин.",
-    customID: ProductsType.serverProducts,
-    price: 2500,
-    photo: [
-      "/club-cards/PLATINUM.png"
-    ],
-    id: 5,
-    rebate: 1999,
-    type: "Platinum"
-  },
-]
+// export const ClubCards: ProductServer[] = [
+//   // {
+//   //   title: "Клубна карта Base",
+//   //   description: "Стартовий рівень для тих, хто хоче спробувати автоклуб.",
+//   //   texts: [
+//   //     "Базові консультації з вибору авто",
+//   //     "Підбір стандартних запчастин",
+//   //     "Доступ до базового контенту та оновлень"
+//   //   ],
+//   //   customID: ProductsType.serverProducts,
+//   //   price: 99,
+//   //   photo: [
+//   //     "/club-cards/BASE.png"
+//   //   ],
+//   //   id: 4,
+//   //   rebate: 0,
+//   //   type: "Base"
+//   // },
+//   {
+//     title: "START — Базовий клубний рівень",
+//     description: "Карта START включає:",
+//     texts: [
+//       "• доступ до базових бонусів на покупки;",
+//       "• стандартний пріоритет у підборі запчастин;",
+//       "• можливість швидше отримувати консультацію щодо сумісності деталей;",
+//       "• рекомендації по вибору оптимальних запчастин під бюджет."
+//     ],
+//     subTitle: "START — це зручний початковий рівень сервісу для наших покупців.",
+//     customID: ProductsType.clubCarts,
+//     price: 199,
+//     photo: [
+//       "/club-cards/START.png"
+//     ],
+//     id: 3,
+//     rebate: 0,
+//     type: "Start"
+//   },
+//    {
+//     title: "⭐ SILVER — Рівень розширених можливостей",
+//     description: "Карта SILVER надає:",
+//     texts: [
+//       "• більші бонуси та покращені умови для повторних покупок;",
+//       "• прискорений доступ до консультанта магазину;",
+//       "• рекомендації щодо альтернативних запчастин і наявності на складах;",
+//       "• допомогу у підборі деталей під конкретні задачі."
+//     ],
+//     subTitle: "Це оптимальний вибір для клієнтів, які регулярно замовляють автозапчастини.",
+//     customID: ProductsType.clubCarts,
+//     price: 600,
+//     photo: [
+//       "/club-cards/SILVER.png"
+//     ],
+//     id: 2,
+//     rebate: 499,
+//     type: "Silver"
+//   },
+//   {
+//     title: "⭐ GOLD — Преміальний рівень обслуговування",
+//     description: "Карта GOLD включає:",
+//     texts: [
+//       "• пріоритетний підбір запчастин та бронювання позицій;",
+//       "• персональний супровід від спеціаліста магазину;",
+//       "• спеціальні ціни на частину позицій;",
+//       "• допомогу у підборі складних або рідкісних комплектуючих;",
+//       "• рекомендації щодо найвигідніших варіантів постачання."
+//     ],
+//     subTitle: "Цей рівень створений для клієнтів, яким важлива швидкість та персональна увага.",
+//     customID: ProductsType.clubCarts,
+//     price: 1200,
+//     photo: [
+//       "/club-cards/GOLD.png"
+//     ],
+//     id: 1,
+//     rebate: 999,
+//     type: "Gold"
+//   },
+//   {
+//     title: "⭐ PLATINUM — Максимальні переваги магазину",
+//     description: "Карта PLATINUM надає:",
+//     texts: [
+//       "• першочергове обслуговування та пріоритет у всіх замовленнях;",
+//       "• індивідуальний супровід від персонального менеджера;",
+//       "• доступ до ексклюзивних пропозицій та закритих умов;",
+//       "• допомогу у замовленні рідкісних деталей та складних комплектуючих;",
+//       "• максимальні бонуси та найвигідніші умови магазину."
+//     ],
+//     subTitle: "PLATINUM — найвищий рівень сервісу, що доступний у нашому магазині автозапчастин.",
+//     customID: ProductsType.clubCarts,
+//     price: 2500,
+//     photo: [
+//       "/club-cards/PLATINUM.png"
+//     ],
+//     id: 5,
+//     rebate: 1999,
+//     type: "Platinum"
+//   },
+// ]

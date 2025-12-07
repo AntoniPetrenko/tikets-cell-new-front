@@ -2,13 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { ClubCards, ProductsClient } from "../const/products";
+import { useProducts } from "../hooks/useProducts";
+// import { ClubCards, ProductsClient } from "../const/products";
 
 interface PaymentInfo {
   [key: string]: string;
 }
 
 export default function ResultClient() {
+  const { clubCards, products, isLoading } = useProducts();
   const searchParams = useSearchParams();
   const [info, setInfo] = useState<PaymentInfo | null>(null);
 
@@ -24,8 +26,8 @@ export default function ResultClient() {
   }, [searchParams]);
 
   const getProduct = (): string => {
-    const products = [...ProductsClient, ...ClubCards];
-    const product = products.find(
+    const allProducts = [...clubCards, ...products];
+    const product = allProducts.find(
       (item) => Number(item.id) === Number(info?.paymentId)
     );
     const getLevel = (text?: string): string => {

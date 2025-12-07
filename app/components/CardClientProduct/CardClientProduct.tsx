@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Button } from "../Button/Button";
-import { Product, ProductServer } from "@/app/types";
+import { Product } from "@/app/types";
 import { useRouter } from "next/navigation";
 
 interface CardProps {
@@ -26,19 +26,21 @@ export const CardClientProduct: React.FC<CardProps> = ({ product }) => {
         />
       </div>
 
-      <div className="font-semibold text-2xl mt-4">{product.title}</div>
-      <div className="font-normal text-xs text-gray-300 mb-4">
+      <div className="font-semibold text-xl mt-4">{product.title}</div>
+      {/* <div className="font-normal text-xs text-gray-300 mb-4">
         {product.description}
-      </div>
+      </div> */}
       <div className="flex justify-between items-center mt-auto gap-4">
         <Button
-          variant="pink"
+          variant="orange"
           sizeText="small"
           onClick={() => router.push(`/catalog/${product.id}`)}
         >
-          Читати далі
+          Детальніше
         </Button>
-        <div className="font-bold text-4xl">{product.price} ₴</div>
+        <div className="font-medium text-2xl">
+          {product.price} <span className="text-lg">₴</span>
+        </div>
       </div>
     </div>
   );

@@ -191,7 +191,7 @@ export const ContactForm = ({ onSuccess }: { onSuccess: () => void }) => {
                 </div>
 
                 <Button
-                  variant="pink"
+                  variant="orange"
                   type="submit"
                   disabled={isDisabled}
                   className={`${

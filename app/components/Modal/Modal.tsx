@@ -1,47 +1,54 @@
 "use client";
 
-import { useEffect, useState, ReactNode, FC } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
-type ModalProps = {
+interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  title?: string;
   children: ReactNode;
-};
+}
 
-export const Modal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
+export const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  title,
+  children,
+}) => {
   const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-
-    const keyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-
-    document.addEventListener("keydown", keyDown);
-    return () => document.removeEventListener("keydown", keyDown);
-  }, [onClose]);
-
-  if (!mounted || !isOpen) return null;
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+  if (!isOpen) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+      onClick={onClose}
+    >
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={onClose}
-      />
+        className="bg-gray-950 text-white rounded-2xl shadow-xl max-w-md w-full p-6 relative transition-transform transform scale-100"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {title && <h2 className="text-2xl font-bold mb-4">{title}</h2>}
 
-      <div className="relative z-10 w-full max-w-md rounded-2xl bg-white p-6 shadow-xl animate-fade-in m-4">
+        <div className="space-y-4 text-neutral-300">{children}</div>
+
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 text-gray-600 hover:text-black"
+          className="absolute top-4 right-4 text-gray-400 hover:text-white transition"
         >
-          <X size={20} />
+          <X size={24} />
         </button>
-
-        {children}
+        <div className="mt-6 flex justify-end">
+          <button
+            onClick={onClose}
+            className="bg-orange-600 hover:bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg transition"
+          >
+            Ок
+          </button>
+        </div>
       </div>
     </div>,
     document.body
