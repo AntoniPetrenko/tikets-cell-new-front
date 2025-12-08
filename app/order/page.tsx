@@ -63,7 +63,6 @@ export default function OrderPage() {
 
   const items = item ? [item] : [];
 
-  // Загрузка данных из localStorage
   useEffect(() => {
     const savedBasic = localStorage.getItem("basicForm");
     if (savedBasic) {
@@ -104,7 +103,6 @@ export default function OrderPage() {
     if (savedPayment) setSelectedPayment(savedPayment);
   }, []);
 
-  // Сохраняем данные в localStorage
   useEffect(() => {
     const sub = basicForm.watch((v) =>
       localStorage.setItem("basicForm", JSON.stringify(v))
@@ -209,7 +207,6 @@ export default function OrderPage() {
 
       <div className="min-h-screen bg-black text-white p-6 flex justify-center pt-24">
         <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {/* Форма */}
           <div>
             <h1 className="text-3xl font-bold mb-8">Оформлення замовлення</h1>
 
@@ -346,7 +343,6 @@ export default function OrderPage() {
             )}
           </div>
 
-          {/* Блок с корзиной и чекбоксом */}
           <div className="bg-neutral-900 rounded-2xl p-6 h-fit flex flex-col">
             <h2 className="text-2xl font-bold mb-6">Ваше замовлення</h2>
             <div className="space-y-4 text-neutral-300">
@@ -370,7 +366,6 @@ export default function OrderPage() {
               )}
             </div>
 
-            {/* Чекбокс */}
             <div className="mt-4 flex items-center gap-2 text-sm text-neutral-400">
               <input
                 type="checkbox"
@@ -386,7 +381,6 @@ export default function OrderPage() {
               </span>
             </div>
 
-            {/* Кнопка Підтвердити замовлення */}
             <button
               type="submit"
               onClick={() => {
