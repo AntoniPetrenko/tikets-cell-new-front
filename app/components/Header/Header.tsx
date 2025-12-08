@@ -12,7 +12,9 @@ import { useProductStore } from "@/app/store/productStore";
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const cartCount = useProductStore((state) => state.items.length);
+  const cartCount = useProductStore((state) =>
+    state.item ? state.item.qty : 0
+  );
   const openSidebar = useProductStore((state) => state.openSidebar);
 
   useEffect(() => {

@@ -12,68 +12,58 @@ export type CartItem = {
 };
 
 type CartState = {
-  items: CartItem[];
+  item: CartItem | null;
   isSidebarOpen: boolean;
+  isModalOpen: boolean;
   openSidebar: () => void;
   closeSidebar: () => void;
+  openModal: () => void;
+  closeModal: () => void;
 
-  addToCart: (item: CartItem) => void;
-  removeFromCart: (id: number) => void;
+  addToCart: (item: CartItem) => boolean;
+  removeFromCart: () => void;
   clearCart: () => void;
-  increaseQty: (id: number) => void;
-  decreaseQty: (id: number) => void;
+  increaseQty: () => void;
+  decreaseQty: () => void;
   getTotal: () => number;
 };
 
 export const useProductStore = create<CartState>()(
   persist(
     (set, get) => ({
-      items: [],
-
-      // sidebar state
+      item: null,
       isSidebarOpen: false,
+      isModalOpen: false,
+
       openSidebar: () => set({ isSidebarOpen: true }),
       closeSidebar: () => set({ isSidebarOpen: false }),
+      openModal: () => set({ isModalOpen: true }),
+      closeModal: () => set({ isModalOpen: false }),
 
-      // cart methods
-      addToCart: (item) =>
-        set((state) => {
-          const existing = state.items.find((i) => i.id === item.id);
-          if (existing) {
-            return {
-              items: state.items.map((i) =>
-                i.id === item.id ? { ...i, qty: i.qty + item.qty } : i
-              ),
-            };
-          }
-          return { items: [...state.items, item] };
-        }),
+      addToCart: (newItem) => {
+        if (get().item) {
+          get().openModal();
+          return false;
+        }
+        set({ item: newItem });
+        return true;
+      },
 
-      removeFromCart: (id) =>
-        set((state) => ({
-          items: state.items.filter((i) => i.id !== id),
-        })),
+      removeFromCart: () => set({ item: null }),
+      clearCart: () => set({ item: null }),
+      increaseQty: () =>
+        set((state) => state.item ? { item: { ...state.item, qty: state.item.qty + 1 } } : state),
+      decreaseQty: () =>
+        set((state) =>
+          state.item && state.item.qty > 1
+            ? { item: { ...state.item, qty: state.item.qty - 1 } }
+            : { item: null }
+        ),
 
-      clearCart: () => set({ items: [] }),
-
-      increaseQty: (id) =>
-        set((state) => ({
-          items: state.items.map((i) =>
-            i.id === id ? { ...i, qty: i.qty + 1 } : i
-          ),
-        })),
-
-      decreaseQty: (id) =>
-        set((state) => ({
-          items: state.items
-            .map((i) =>
-              i.id === id ? { ...i, qty: i.qty - 1 } : i
-            )
-            .filter((i) => i.qty > 0),
-        })),
-
-      getTotal: () =>
-        get().items.reduce((sum, i) => sum + i.price * i.qty, 0),
+      getTotal: () => {
+        const item = get().item;
+        return item ? item.price * item.qty : 0;
+      },
     }),
     { name: "cart-storage" }
   )

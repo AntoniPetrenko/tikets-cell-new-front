@@ -38,8 +38,11 @@ const paymentOptions = ["Оплата карткою", "Apple Pay", "Google Pay"
 
 export default function OrderPage() {
   const router = useRouter();
-  const items = useProductStore((state) => state.items);
+  const item = useProductStore((state) => state.item);
   const getTotal = useProductStore((state) => state.getTotal);
+  const increaseQty = useProductStore((state) => state.increaseQty);
+  const decreaseQty = useProductStore((state) => state.decreaseQty);
+  const clearCart = useProductStore((state) => state.clearCart);
 
   const [region, setRegion] = useState<Region | null>(null);
   const [selectedPayment, setSelectedPayment] = useState(paymentOptions[0]);
@@ -47,7 +50,7 @@ export default function OrderPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<string>("");
 
-  const hasProducts = items.some((i) => i.customId === ProductsType.products);
+  const hasProducts = item?.customId === ProductsType.products;
   const formType = hasProducts ? "extended" : "basic";
 
   const basicForm = useForm<BasicForm>({
@@ -60,26 +63,46 @@ export default function OrderPage() {
     mode: "onChange",
   });
 
-  // ------------------- Загрузка данных из localStorage -------------------
   useEffect(() => {
     const savedBasic = localStorage.getItem("basicForm");
-    if (savedBasic) basicForm.reset(JSON.parse(savedBasic));
+    if (savedBasic) {
+      const data = JSON.parse(savedBasic);
+      Object.entries(data).forEach(([key, value]) => {
+        basicForm.setValue(key as keyof BasicForm, value as any, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+      });
+      basicForm.trigger();
+    }
 
     const savedExtended = localStorage.getItem("extendedForm");
-    if (savedExtended) extendedForm.reset(JSON.parse(savedExtended));
+    if (savedExtended) {
+      const data = JSON.parse(savedExtended);
+      Object.entries(data).forEach(([key, value]) => {
+        extendedForm.setValue(key as keyof ExtendedForm, value as any, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+      });
+      extendedForm.trigger();
+    }
 
     const savedRegion = localStorage.getItem("region");
     if (savedRegion) {
       const regionObj = JSON.parse(savedRegion);
       setRegion(regionObj);
-      extendedForm.setValue("region", regionObj);
+      extendedForm.setValue("region", regionObj, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      extendedForm.trigger("region");
     }
 
     const savedPayment = localStorage.getItem("selectedPayment");
     if (savedPayment) setSelectedPayment(savedPayment);
-  }, [extendedForm, basicForm]);
+  }, []);
 
-  // ------------------- Слежение за изменениями -------------------
   useEffect(() => {
     const sub = basicForm.watch((v) =>
       localStorage.setItem("basicForm", JSON.stringify(v))
@@ -103,7 +126,6 @@ export default function OrderPage() {
     [selectedPayment]
   );
 
-  // ------------------- Отправка формы -------------------
   const handleSubmit = async (data: any) => {
     const payload = {
       name: data.firstName,
@@ -119,7 +141,7 @@ export default function OrderPage() {
     );
 
     const params = new URLSearchParams(payload as any);
-    const result = await fetch(`/api/payment/${String(2)}?${params}`).then(
+    const result = await fetch(`/api/payment/${item?.id}?${params}`).then(
       (res) => res.json()
     );
 
@@ -160,17 +182,16 @@ export default function OrderPage() {
         })
         .on("liqpay.close", function () {
           if ((window as any).LiqPayCheckout.lastStatus === "success") {
-            const query = new URLSearchParams({
-              paymentIds: items.map((i) => i.id).join(","),
-            }).toString();
-            useProductStore.getState().clearCart();
-            router.push(`/result?${query}`);
+            clearCart();
+            router.push("/result");
           }
         });
     };
 
     (window as any).LiqPayCheckoutCallback();
   };
+
+  const items = item ? [item] : [];
 
   return (
     <>
@@ -188,7 +209,6 @@ export default function OrderPage() {
 
       <div className="min-h-screen bg-black text-white p-6 flex justify-center pt-24">
         <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {/* Форма */}
           <div>
             <h1 className="text-3xl font-bold mb-8">Оформлення замовлення</h1>
 
@@ -219,6 +239,23 @@ export default function OrderPage() {
                   register={basicForm.register}
                   error={basicForm.formState.errors.phone}
                   required
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    let value = e.target.value;
+                    let digits = value.replace(/[^\d]/g, "");
+                    if (digits.length === 0) {
+                      basicForm.setValue("phone", "", {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                      });
+                      return;
+                    }
+                    if (!digits.startsWith("38")) digits = "38" + digits;
+                    digits = digits.slice(0, 12);
+                    basicForm.setValue("phone", "+" + digits, {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                    });
+                  }}
                 />
                 <TextField
                   label="E-mail адреса"
@@ -228,10 +265,13 @@ export default function OrderPage() {
                   error={basicForm.formState.errors.email}
                   required
                 />
-
                 <button
                   type="submit"
-                  disabled={!basicForm.formState.isValid || !agreeTerms}
+                  disabled={
+                    !basicForm.formState.isValid ||
+                    !agreeTerms ||
+                    items.length === 0
+                  }
                   className="mt-4 w-full bg-orange-400 text-black font-bold py-3 rounded-lg hover:bg-orange-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Підтвердити замовлення
@@ -264,6 +304,23 @@ export default function OrderPage() {
                   register={extendedForm.register}
                   error={extendedForm.formState.errors.phone}
                   required
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    let value = e.target.value;
+                    let digits = value.replace(/[^\d]/g, "");
+                    if (digits.length === 0) {
+                      extendedForm.setValue("phone", "", {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                      });
+                      return;
+                    }
+                    if (!digits.startsWith("38")) digits = "38" + digits;
+                    digits = digits.slice(0, 12);
+                    extendedForm.setValue("phone", "+" + digits, {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                    });
+                  }}
                 />
                 <TextField
                   label="E-mail адреса"
@@ -294,8 +351,6 @@ export default function OrderPage() {
                   error={extendedForm.formState.errors.zip}
                   required
                 />
-
-                {/* CustomSelect с синхронизацией */}
                 <div>
                   <label className="block mb-1">
                     Область <span className="text-red-500">*</span>
@@ -316,7 +371,11 @@ export default function OrderPage() {
 
                 <button
                   type="submit"
-                  disabled={!extendedForm.formState.isValid || !agreeTerms}
+                  disabled={
+                    !extendedForm.formState.isValid ||
+                    !agreeTerms ||
+                    items.length === 0
+                  }
                   className="mt-4 w-full bg-orange-400 text-black font-bold py-3 rounded-lg hover:bg-orange-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Підтвердити замовлення
@@ -324,20 +383,18 @@ export default function OrderPage() {
               </form>
             )}
           </div>
-
-          {/* Корзина */}
           <div className="bg-neutral-900 rounded-2xl p-6 h-fit">
             <h2 className="text-2xl font-bold mb-6">Ваше замовлення</h2>
             <div className="space-y-4 text-neutral-300">
               {items.length === 0 ? (
                 <p className="text-neutral-400">У кошику немає товарів.</p>
               ) : (
-                items.map((item) => (
-                  <div key={item.id} className="flex justify-between">
+                items.map((i) => (
+                  <div key={i.id} className="flex justify-between">
                     <span>
-                      {item.title} × {item.qty}
+                      {i.title} × {i.qty}
                     </span>
-                    <span>{(item.price * item.qty).toLocaleString()} ₴</span>
+                    <span>{(i.price * i.qty).toLocaleString()} ₴</span>
                   </div>
                 ))
               )}
@@ -349,6 +406,7 @@ export default function OrderPage() {
                 </div>
               )}
             </div>
+
             <div className="mt-4 flex items-center gap-2 text-sm text-neutral-400">
               <input
                 type="checkbox"

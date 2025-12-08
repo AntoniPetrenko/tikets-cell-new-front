@@ -2,7 +2,6 @@
 
 import { Button } from "@/app/components/Button/Button";
 import { useParams } from "next/navigation";
-import Script from "next/script";
 import Image from "next/image";
 import { FullScreenLoader } from "@/app/components/FullScreenLoader/FullScreenLoader";
 import { useProducts } from "@/app/hooks/useProducts";
@@ -22,6 +21,10 @@ export default function ClubCard() {
   const addToCart = () => {
     if (!product) return;
 
+    if (useProductStore.getState().item) {
+      useProductStore.getState().openModal();
+      return;
+    }
     addToCartStore({
       id: product.id,
       title: product.title,

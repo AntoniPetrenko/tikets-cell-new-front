@@ -11,6 +11,7 @@ interface TextFieldProps {
   register: UseFormRegister<any>;
   error?: FieldError;
   required?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const TextField: React.FC<TextFieldProps> = ({
@@ -21,7 +22,10 @@ export const TextField: React.FC<TextFieldProps> = ({
   register,
   error,
   required = false,
+  onChange,
 }) => {
+  const registered = register(name);
+
   return (
     <div>
       <label className="block mb-1">
@@ -32,7 +36,11 @@ export const TextField: React.FC<TextFieldProps> = ({
       <input
         type={type}
         placeholder={placeholder}
-        {...register(name)}
+        {...registered}
+        onChange={(e) => {
+          registered.onChange(e);
+          onChange && onChange(e);
+        }}
         className="w-full bg-neutral-900 border border-neutral-700 rounded-lg p-3 mt-1 focus:border-yellow-400 outline-none transition"
       />
 

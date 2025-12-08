@@ -9,6 +9,7 @@ interface ModalProps {
   onClose: () => void;
   title?: string;
   children: ReactNode;
+  actions?: ReactNode;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -16,8 +17,10 @@ export const Modal: React.FC<ModalProps> = ({
   onClose,
   title,
   children,
+  actions,
 }) => {
   const [mounted, setMounted] = useState(false);
+
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
   if (!isOpen) return null;
@@ -41,13 +44,18 @@ export const Modal: React.FC<ModalProps> = ({
         >
           <X size={24} />
         </button>
-        <div className="mt-6 flex justify-end">
-          <button
-            onClick={onClose}
-            className="bg-orange-600 hover:bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg transition"
-          >
-            Ок
-          </button>
+
+        <div className="mt-6 flex justify-end gap-2">
+          {actions ? (
+            actions
+          ) : (
+            <button
+              onClick={onClose}
+              className="bg-orange-600 hover:bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg transition"
+            >
+              Ок
+            </button>
+          )}
         </div>
       </div>
     </div>,

@@ -22,6 +22,11 @@ export default function Product() {
 
   const addToCart = () => {
     if (!product) return;
+
+    if (useProductStore.getState().item) {
+      useProductStore.getState().openModal();
+      return;
+    }
     addToCartStore({
       id: product.id,
       title: product.title,
