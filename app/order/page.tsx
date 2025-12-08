@@ -40,8 +40,6 @@ export default function OrderPage() {
   const router = useRouter();
   const item = useProductStore((state) => state.item);
   const getTotal = useProductStore((state) => state.getTotal);
-  const increaseQty = useProductStore((state) => state.increaseQty);
-  const decreaseQty = useProductStore((state) => state.decreaseQty);
   const clearCart = useProductStore((state) => state.clearCart);
 
   const [region, setRegion] = useState<Region | null>(null);
@@ -63,28 +61,31 @@ export default function OrderPage() {
     mode: "onChange",
   });
 
+  const items = item ? [item] : [];
+
+  // Загрузка данных из localStorage
   useEffect(() => {
     const savedBasic = localStorage.getItem("basicForm");
     if (savedBasic) {
       const data = JSON.parse(savedBasic);
-      Object.entries(data).forEach(([key, value]) => {
+      Object.entries(data).forEach(([key, value]) =>
         basicForm.setValue(key as keyof BasicForm, value as any, {
           shouldValidate: true,
           shouldDirty: true,
-        });
-      });
+        })
+      );
       basicForm.trigger();
     }
 
     const savedExtended = localStorage.getItem("extendedForm");
     if (savedExtended) {
       const data = JSON.parse(savedExtended);
-      Object.entries(data).forEach(([key, value]) => {
+      Object.entries(data).forEach(([key, value]) =>
         extendedForm.setValue(key as keyof ExtendedForm, value as any, {
           shouldValidate: true,
           shouldDirty: true,
-        });
-      });
+        })
+      );
       extendedForm.trigger();
     }
 
@@ -103,6 +104,7 @@ export default function OrderPage() {
     if (savedPayment) setSelectedPayment(savedPayment);
   }, []);
 
+  // Сохраняем данные в localStorage
   useEffect(() => {
     const sub = basicForm.watch((v) =>
       localStorage.setItem("basicForm", JSON.stringify(v))
@@ -191,8 +193,6 @@ export default function OrderPage() {
     (window as any).LiqPayCheckoutCallback();
   };
 
-  const items = item ? [item] : [];
-
   return (
     <>
       <Script
@@ -209,6 +209,7 @@ export default function OrderPage() {
 
       <div className="min-h-screen bg-black text-white p-6 flex justify-center pt-24">
         <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Форма */}
           <div>
             <h1 className="text-3xl font-bold mb-8">Оформлення замовлення</h1>
 
@@ -239,19 +240,11 @@ export default function OrderPage() {
                   register={basicForm.register}
                   error={basicForm.formState.errors.phone}
                   required
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    let value = e.target.value;
-                    let digits = value.replace(/[^\d]/g, "");
-                    if (digits.length === 0) {
-                      basicForm.setValue("phone", "", {
-                        shouldValidate: true,
-                        shouldDirty: true,
-                      });
-                      return;
-                    }
+                  onChange={(e) => {
+                    let digits = e.target.value.replace(/\D/g, "");
                     if (!digits.startsWith("38")) digits = "38" + digits;
                     digits = digits.slice(0, 12);
-                    basicForm.setValue("phone", "+" + digits, {
+                    basicForm.setValue("phone", digits ? "+" + digits : "", {
                       shouldValidate: true,
                       shouldDirty: true,
                     });
@@ -265,17 +258,6 @@ export default function OrderPage() {
                   error={basicForm.formState.errors.email}
                   required
                 />
-                <button
-                  type="submit"
-                  disabled={
-                    !basicForm.formState.isValid ||
-                    !agreeTerms ||
-                    items.length === 0
-                  }
-                  className="mt-4 w-full bg-orange-400 text-black font-bold py-3 rounded-lg hover:bg-orange-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Підтвердити замовлення
-                </button>
               </form>
             ) : (
               <form
@@ -304,19 +286,11 @@ export default function OrderPage() {
                   register={extendedForm.register}
                   error={extendedForm.formState.errors.phone}
                   required
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    let value = e.target.value;
-                    let digits = value.replace(/[^\d]/g, "");
-                    if (digits.length === 0) {
-                      extendedForm.setValue("phone", "", {
-                        shouldValidate: true,
-                        shouldDirty: true,
-                      });
-                      return;
-                    }
+                  onChange={(e) => {
+                    let digits = e.target.value.replace(/\D/g, "");
                     if (!digits.startsWith("38")) digits = "38" + digits;
                     digits = digits.slice(0, 12);
-                    extendedForm.setValue("phone", "+" + digits, {
+                    extendedForm.setValue("phone", digits ? "+" + digits : "", {
                       shouldValidate: true,
                       shouldDirty: true,
                     });
@@ -368,22 +342,12 @@ export default function OrderPage() {
                     </p>
                   )}
                 </div>
-
-                <button
-                  type="submit"
-                  disabled={
-                    !extendedForm.formState.isValid ||
-                    !agreeTerms ||
-                    items.length === 0
-                  }
-                  className="mt-4 w-full bg-orange-400 text-black font-bold py-3 rounded-lg hover:bg-orange-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Підтвердити замовлення
-                </button>
               </form>
             )}
           </div>
-          <div className="bg-neutral-900 rounded-2xl p-6 h-fit">
+
+          {/* Блок с корзиной и чекбоксом */}
+          <div className="bg-neutral-900 rounded-2xl p-6 h-fit flex flex-col">
             <h2 className="text-2xl font-bold mb-6">Ваше замовлення</h2>
             <div className="space-y-4 text-neutral-300">
               {items.length === 0 ? (
@@ -398,7 +362,6 @@ export default function OrderPage() {
                   </div>
                 ))
               )}
-
               {items.length > 0 && (
                 <div className="flex justify-between font-semibold text-white pt-2 border-t border-neutral-700">
                   <span>Загалом</span>
@@ -407,6 +370,7 @@ export default function OrderPage() {
               )}
             </div>
 
+            {/* Чекбокс */}
             <div className="mt-4 flex items-center gap-2 text-sm text-neutral-400">
               <input
                 type="checkbox"
@@ -421,6 +385,22 @@ export default function OrderPage() {
                 </a>
               </span>
             </div>
+
+            {/* Кнопка Підтвердити замовлення */}
+            <button
+              type="submit"
+              onClick={() => {
+                if (formType === "basic") {
+                  basicForm.handleSubmit(handleSubmit)();
+                } else {
+                  extendedForm.handleSubmit(handleSubmit)();
+                }
+              }}
+              disabled={!agreeTerms || items.length === 0}
+              className="mt-4 w-full bg-orange-400 text-black font-bold py-3 rounded-lg hover:bg-orange-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Підтвердити замовлення
+            </button>
           </div>
         </div>
       </div>
