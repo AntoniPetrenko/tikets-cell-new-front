@@ -9,7 +9,7 @@ export default function Catalog() {
 
   if (isLoading) return <FullScreenLoader />;
   return (
-    <div className="flex flex-col md:flex-row gap-8 flex-wrap justify-center items-center pt-24">
+    <div className="flex flex-col  gap-8 flex-wrap justify-center items-center pt-24">
       <div className=" text-white text-center p-8">
         <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-snug">
           Клубні карти <span className="text-orange-500 uppercase">Auto</span>
@@ -26,9 +26,11 @@ export default function Catalog() {
           магазину:
         </p>
       </div>
-      {clubCards.map((product) => {
-        return <CardServerProduct product={product} key={product.id} />;
-      })}
+      <div className="flex gap-8 flex-wrap justify-center items-center">
+        {clubCards.map((product) => {
+          return <CardServerProduct product={product} key={product.id} />;
+        })}
+      </div>
     </div>
   );
 }
