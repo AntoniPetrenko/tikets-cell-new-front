@@ -7,24 +7,35 @@ import Image from "next/image";
 import logo from "../../../public/logo.png";
 import { navItems } from "@/app/const";
 import { Sidebar } from "../Sidebar/SideBar";
-import { useProductStore } from "@/app/store/productStore";
+import { useUIStore } from "@/app/store/uiStore";
+import { useCartStore } from "@/app/store/cardStore";
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const cartCount = useProductStore((state) =>
-    state.item ? state.item.qty : 0
-  );
-  const openSidebar = useProductStore((state) => state.openSidebar);
+  const cartCount = useCartStore((s) => s.item?.qty ?? 0);
+
+  const openSidebar = useUIStore((s) => s.openSidebar);
+  const isSidebarOpen = useUIStore((s) => s.isSidebarOpen);
 
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      if (typeof window === "undefined") return;
-      setIsScrolled(window.scrollY > 10);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 0);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
@@ -36,11 +47,12 @@ export const Header = () => {
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 h-20">
           <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClick={() => setIsMenuOpen((v) => !v)}
             className="md:hidden text-white order-1"
           >
             {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
           </button>
+
           <Link
             href="/"
             onClick={() => setIsMenuOpen(false)}
@@ -48,6 +60,7 @@ export const Header = () => {
           >
             <Image src={logo} alt="logo" width={90} height={90} />
           </Link>
+
           <nav className="hidden md:flex gap-6 order-2">
             {navItems.map((item) => (
               <Link
@@ -59,6 +72,7 @@ export const Header = () => {
               </Link>
             ))}
           </nav>
+
           <button onClick={openSidebar} className="relative order-3 md:order-3">
             <ShoppingBag className="w-6 h-6 text-white" />
             {cartCount > 0 && (
@@ -68,6 +82,7 @@ export const Header = () => {
             )}
           </button>
         </div>
+
         <div
           className={`md:hidden bg-black/95 transition-all duration-300 overflow-hidden ${
             isMenuOpen ? "max-h-56 opacity-100 py-4" : "max-h-0 opacity-0 py-0"
@@ -88,7 +103,7 @@ export const Header = () => {
         </div>
       </header>
 
-      <Sidebar />
+      {isSidebarOpen && <Sidebar />}
     </>
   );
 };

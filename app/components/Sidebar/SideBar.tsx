@@ -1,32 +1,33 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { X, Plus, Minus, Trash } from "lucide-react";
-import { useProductStore } from "@/app/store/productStore";
+import { useUIStore } from "@/app/store/uiStore";
 import { useRouter } from "next/navigation";
 import { Button } from "../Button/Button";
+import { useCartStore } from "@/app/store/cardStore";
 
 export const Sidebar = () => {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
-  const item = useProductStore((state) => state.item);
-  const increaseQty = useProductStore((state) => state.increaseQty);
-  const decreaseQty = useProductStore((state) => state.decreaseQty);
-  const removeFromCart = useProductStore((state) => state.removeFromCart);
-  const getTotal = useProductStore((state) => state.getTotal);
+  const item = useCartStore((s) => s.item);
+  const increaseQty = useCartStore((s) => s.increaseQty);
+  const decreaseQty = useCartStore((s) => s.decreaseQty);
+  const removeFromCart = useCartStore((s) => s.removeFromCart);
 
-  const isOpen = useProductStore((state) => state.isSidebarOpen);
-  const closeSidebar = useProductStore((state) => state.closeSidebar);
+  const isOpen = useUIStore((s) => s.isSidebarOpen);
+  const closeSidebar = useUIStore((s) => s.closeSidebar);
 
   const sidebarRef = useRef<HTMLElement>(null);
 
   useEffect(() => setMounted(true), []);
 
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        isOpen &&
         sidebarRef.current &&
         !sidebarRef.current.contains(event.target as Node)
       ) {
@@ -35,14 +36,12 @@ export const Sidebar = () => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen, closeSidebar]);
 
   if (!mounted) return null;
 
-  const total = getTotal();
+  const total = item ? item.price * item.qty : 0;
 
   return (
     <>
@@ -52,7 +51,7 @@ export const Sidebar = () => {
 
       <aside
         ref={sidebarRef}
-        className={`fixed right-0 top-0 h-full w-80 bg-[#000000] text-white shadow-xl z-50 transform transition-transform duration-300 flex flex-col ${
+        className={`fixed right-0 top-0 h-full w-80 bg-black text-white shadow-xl z-50 transform transition-transform duration-300 flex flex-col ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -77,17 +76,19 @@ export const Sidebar = () => {
 
               <div className="flex items-center gap-2">
                 <button
-                  onClick={decreaseQty}
-                  className="p-1 rounded bg-gray-800 text-gray-400 cursor-not-allowed hover:bg-gray-800 transition-colors"
                   disabled
+                  onClick={decreaseQty}
+                  className="p-1 rounded bg-gray-800 text-gray-400 transition-colors cursor-not-allowed hover:bg-gray-800 "
                 >
                   <Minus className="w-4 h-4" />
                 </button>
+
                 <span className="w-6 text-center">{item.qty}</span>
+
                 <button
-                  onClick={increaseQty}
-                  className="p-1 rounded bg-gray-800 text-gray-400 cursor-not-allowed hover:bg-gray-800 transition-colors"
                   disabled
+                  onClick={increaseQty}
+                  className="p-1 rounded bg-gray-800 text-gray-400 transition-colors cursor-not-allowed hover:bg-gray-800 "
                 >
                   <Plus className="w-4 h-4" />
                 </button>
@@ -113,12 +114,12 @@ export const Sidebar = () => {
             className={`w-full ${!item ? "opacity-50 cursor-not-allowed" : ""}`}
             variant="orange"
             sizeText="small"
+            disabled={!item}
             onClick={() => {
               if (!item) return;
               closeSidebar();
               router.push("/order");
             }}
-            disabled={!item}
           >
             Оформити замовлення
           </Button>

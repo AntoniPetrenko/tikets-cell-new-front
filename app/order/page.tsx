@@ -6,7 +6,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CustomSelect } from "../components/CustomSelect/CustomSelect";
 import { TextField } from "../components/TextField/TextField";
-import { useProductStore } from "@/app/store/productStore";
 import { Region } from "../const/ukraineRegions";
 import { ProductsType } from "../types";
 import { useRouter } from "next/navigation";
@@ -14,6 +13,7 @@ import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { enqueueSnackbar } from "notistack";
 import { Modal } from "../components/Modal/Modal";
+import { useCartStore } from "../store/cardStore";
 
 const phoneRegex = /^\+380\d{9}$/;
 
@@ -38,9 +38,10 @@ const paymentOptions = ["Оплата карткою", "Apple Pay", "Google Pay"
 
 export default function OrderPage() {
   const router = useRouter();
-  const item = useProductStore((state) => state.item);
-  const getTotal = useProductStore((state) => state.getTotal);
-  const clearCart = useProductStore((state) => state.clearCart);
+
+  const item = useCartStore((state) => state.item);
+  const getTotal = () => (item ? item.price * item.qty : 0);
+  const clearCart = useCartStore((state) => state.clearCart);
 
   const [region, setRegion] = useState<Region | null>(null);
   const [selectedPayment, setSelectedPayment] = useState(paymentOptions[0]);
@@ -92,7 +93,7 @@ export default function OrderPage() {
     if (savedRegion) {
       const regionObj = JSON.parse(savedRegion);
       setRegion(regionObj);
-      extendedForm.setValue("region", regionObj, {
+      extendedForm.setValue("region", regionObj as any, {
         shouldValidate: true,
         shouldDirty: true,
       });
