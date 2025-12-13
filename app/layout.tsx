@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Header } from "./components/Header/Header";
 import { Poppins } from "next/font/google";
-import { Footer } from "./components/Footer/Footer";
-import { GlobalModal } from "./components/GlobalModal/GlobalModal";
+import { ClientLayout } from "./components/ClientLayout/ClientLayout";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -26,10 +24,11 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} antialiased flex flex-col min-h-screen bg-gray-900 text-white`}
       >
-        <Header />
+        <ClientLayout children={children} />
+        {/* <Header />
         <main className="flex-grow">{children}</main>
         <Footer />
-        <GlobalModal />
+        <GlobalModal /> */}
       </body>
     </html>
   );

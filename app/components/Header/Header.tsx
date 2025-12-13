@@ -24,7 +24,10 @@ export const Header = () => {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setIsScrolled(window.scrollY > 0);
+          setIsScrolled((prevScrolled) => {
+            const newScrolled = window.scrollY > 0;
+            return newScrolled;
+          });
           ticking = false;
         });
         ticking = true;
@@ -42,7 +45,7 @@ export const Header = () => {
     <>
       <header
         className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
-          isScrolled ? "bg-black/90 backdrop-blur-md" : "bg-transparent"
+          isScrolled ? "bg-black/90 " : "bg-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 h-20">
