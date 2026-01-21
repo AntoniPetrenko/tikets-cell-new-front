@@ -26,21 +26,46 @@ export default function ResultClient() {
   }, [searchParams]);
 
   const getProduct = (): string => {
+    if (!info || !info.paymentId) {
+      return "Завантаження...";
+    }
+
     const allProducts = [...clubCards, ...products];
+    const paymentId = Number(info.paymentId);
+
+    if (isNaN(paymentId)) {
+      return "Невірний ідентифікатор платежу";
+    }
+
     const product = allProducts.find(
-      (item) => Number(item.id) === Number(info?.paymentId)
+      (item) => Number(item.id) === paymentId
     );
+
+    if (!product) {
+      return "Продукт не знайдено";
+    }
+
     const getLevel = (text?: string): string => {
       if (!text) return "";
       const match = text.match(/\p{L}+/u);
       return match ? match[0].toUpperCase() : "";
     };
-    if (Number(product?.id) >= 0 && Number(product?.id) <= 6) {
-      return `Ви придбали клубну карту ${getLevel(product?.title)}`;
+
+    const productId = Number(product.id);
+    if (!isNaN(productId) && productId >= 0 && productId <= 6) {
+      return `Ви придбали клубну карту ${getLevel(product.title)}`;
     } else {
-      return `Ви придбали ${product?.title}`;
+      return `Ви придбали ${product.title}`;
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="text-white pt-24 pr-24 pl-24 flex flex-col gap-8 w-full h-full flex justify-center items-center text-center">
+        <div className="text-4xl">Завантаження...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="text-white pt-24 pr-24 pl-24 flex flex-col gap-8 w-full h-full flex justify-center items-center text-center">
