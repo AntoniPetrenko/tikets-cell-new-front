@@ -62,9 +62,13 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="flex w-full justify-center gap-8">
-        <Image src={Visa} alt="visa" width={50} height={16} />
-        <Image src={Maestro} alt="master-car" width={90} height={25} />
+      <div className="flex justify-center md:justify-between flex-col md:flex-row gap-8 md:gap-4">
+        <div></div>
+        <div style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
+          <Image src={Visa} alt="visa" width={90} />
+          <Image src={MC} alt="master-car" width={90}  />
+        </div>
+        <div style={{width:80}}></div>
       </div>
       <div className="text-white text-base">© Усі права захищені 2025</div>
     </div>
