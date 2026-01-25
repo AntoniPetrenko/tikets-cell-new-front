@@ -158,38 +158,40 @@ export default function OrderPage() {
       enqueueSnackbar(result.message, { variant: "error" });
       return;
     }
-
-    if (result.invoiceId) {
-      try {
-        window.location.href = result.pageUrl;
-        return;
-      } catch (e: any) {
-        enqueueSnackbar(e.message, { variant: "error" });
-        return;
-      }
-    }
-
-    (window as any).LiqPayCheckoutCallback = function () {
-      (window as any).LiqPayCheckout.init({
-        data: result.data,
-        signature: result.signature,
-        mode: "popup",
-      })
-        .on("liqpay.callback", function ({ status, info: rawInfo }: any) {
-          (window as any).LiqPayCheckout.lastStatus = status;
-          const info = JSON.parse(rawInfo);
-          (window as any).LiqPayCheckout.info = info;
-          enqueueSnackbar(status, { variant: "success" });
-        })
-        .on("liqpay.close", function () {
-          if ((window as any).LiqPayCheckout.lastStatus === "success") {
-            clearCart();
-            router.push("/result");
-          }
-        });
-    };
-
-    (window as any).LiqPayCheckoutCallback();
+    //TODO temporary hide.
+    clearCart();
+    router.push("/result");
+    // if (result.invoiceId) {
+    //   try {
+    //     window.location.href = result.pageUrl;
+    //     return;
+    //   } catch (e: any) {
+    //     enqueueSnackbar(e.message, { variant: "error" });
+    //     return;
+    //   }
+    // }
+    //
+    // (window as any).LiqPayCheckoutCallback = function () {
+    //   (window as any).LiqPayCheckout.init({
+    //     data: result.data,
+    //     signature: result.signature,
+    //     mode: "popup",
+    //   })
+    //     .on("liqpay.callback", function ({ status, info: rawInfo }: any) {
+    //       (window as any).LiqPayCheckout.lastStatus = status;
+    //       const info = JSON.parse(rawInfo);
+    //       (window as any).LiqPayCheckout.info = info;
+    //       enqueueSnackbar(status, { variant: "success" });
+    //     })
+    //     .on("liqpay.close", function () {
+    //       if ((window as any).LiqPayCheckout.lastStatus === "success") {
+    //         clearCart();
+    //         router.push("/result");
+    //       }
+    //     });
+    // };
+    //
+    // (window as any).LiqPayCheckoutCallback();
   };
 
   return (
