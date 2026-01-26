@@ -12,56 +12,61 @@ export type CartItem = {
 };
 
 type CartState = {
-  item: CartItem | null;
+  items: CartItem[];
 
-  addToCart: (item: CartItem) => boolean;
-  removeFromCart: () => void;
+  addToCart: (item: CartItem) => void;
+  removeFromCart: (id: number) => void;
   clearCart: () => void;
-  increaseQty: () => void;
-  decreaseQty: () => void;
+  increaseQty: (id: number) => void;
+  decreaseQty: (id: number) => void;
 };
 
 export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
-      item: null,
+      items: [],
 
       addToCart: (newItem) => {
-        if (get().item) return false;
-        set({ item: newItem });
-        return true;
+        const items = get().items;
+        const existing = items.find((i) => i.id === newItem.id);
+
+        if (existing) {
+          set({
+            items: items.map((i) =>
+              i.id === newItem.id ? { ...i, qty: i.qty + 1 } : i
+            ),
+          });
+        } else {
+          set({ items: [...items, newItem] });
+        }
       },
 
-      removeFromCart: () => set({ item: null }),
-
-      clearCart: () => set({ item: null }), 
-
-      increaseQty: () =>
-        set((state) => {
-          if (!state.item) return state;
-          return {
-            item: {
-              ...state.item,
-              qty: state.item.qty + 1,
-            },
-          };
+      removeFromCart: (id) =>
+        set({
+          items: get().items.filter((i) => i.id !== id),
         }),
 
-      decreaseQty: () =>
-        set((state) => {
-          if (!state.item) return state;
-          if (state.item.qty <= 1) return { item: null };
-          return {
-            item: {
-              ...state.item,
-              qty: state.item.qty - 1,
-            },
-          };
+      clearCart: () => set({ items: [] }),
+
+      increaseQty: (id) =>
+        set({
+          items: get().items.map((i) =>
+            i.id === id ? { ...i, qty: i.qty + 1 } : i
+          ),
+        }),
+
+      decreaseQty: (id) =>
+        set({
+          items: get().items
+            .map((i) =>
+              i.id === id ? { ...i, qty: i.qty - 1 } : i
+            )
+            .filter((i) => i.qty > 0),
         }),
     }),
     {
       name: "cart-storage",
-      partialize: (s) => ({ item: s.item }),
+      partialize: (s) => ({ items: s.items }),
     }
   )
 );

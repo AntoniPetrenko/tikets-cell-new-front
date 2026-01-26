@@ -13,7 +13,11 @@ import { useCartStore } from "@/app/store/cardStore";
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const cartCount = useCartStore((s) => s.item?.qty ?? 0);
+
+  // 🔥 ИСПРАВЛЕНО: считаем общее количество товаров
+  const cartCount = useCartStore((s) =>
+    s.items.reduce((sum, item) => sum + item.qty, 0),
+  );
 
   const openSidebar = useUIStore((s) => s.openSidebar);
   const isSidebarOpen = useUIStore((s) => s.isSidebarOpen);
@@ -24,10 +28,7 @@ export const Header = () => {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setIsScrolled((prevScrolled) => {
-            const newScrolled = window.scrollY > 0;
-            return newScrolled;
-          });
+          setIsScrolled(window.scrollY > 0);
           ticking = false;
         });
         ticking = true;
@@ -35,17 +36,14 @@ export const Header = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <>
       <header
         className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
-          isScrolled ? "bg-black/90 " : "bg-transparent"
+          isScrolled ? "bg-black/90" : "bg-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 h-20">
