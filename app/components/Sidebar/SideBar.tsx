@@ -11,7 +11,7 @@ export const Sidebar = () => {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
-  const item = useCartStore((s) => s.item);
+  const items = useCartStore((s) => s.items);
   const increaseQty = useCartStore((s) => s.increaseQty);
   const decreaseQty = useCartStore((s) => s.decreaseQty);
   const removeFromCart = useCartStore((s) => s.removeFromCart);
@@ -41,7 +41,7 @@ export const Sidebar = () => {
 
   if (!mounted) return null;
 
-  const total = item ? item.price * item.qty : 0;
+  const total = items.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   return (
     <>
@@ -63,44 +63,47 @@ export const Sidebar = () => {
         </div>
 
         <div className="flex-1 p-4 space-y-4 overflow-y-auto">
-          {!item ? (
+          {items.length === 0 ? (
             <p className="text-gray-400">У кошику немає товарів.</p>
           ) : (
-            <div className="flex items-center justify-between gap-3 border-b border-gray-800 pb-3">
-              <div className="flex-1">
-                <p className="font-medium">{item.title}</p>
-                <p className="text-sm text-gray-400">
-                  {(item.price * item.qty).toFixed(2)} ₴
-                </p>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  disabled
-                  onClick={decreaseQty}
-                  className="p-1 rounded bg-gray-800 text-gray-400 transition-colors cursor-not-allowed hover:bg-gray-800 "
-                >
-                  <Minus className="w-4 h-4" />
-                </button>
-
-                <span className="w-6 text-center">{item.qty}</span>
-
-                <button
-                  disabled
-                  onClick={increaseQty}
-                  className="p-1 rounded bg-gray-800 text-gray-400 transition-colors cursor-not-allowed hover:bg-gray-800 "
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
-              </div>
-
-              <button
-                onClick={removeFromCart}
-                className="text-red-500 hover:text-red-400"
+            items.map((item) => (
+              <div
+                key={item.id}
+                className="flex items-center justify-between gap-3 border-b border-gray-800 pb-3"
               >
-                <Trash className="w-5 h-5" />
-              </button>
-            </div>
+                <div className="flex-1">
+                  <p className="font-medium">{item.title}</p>
+                  <p className="text-sm text-gray-400">
+                    {(item.price * item.qty).toFixed(2)} ₴
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => decreaseQty(item.id)}
+                    className="p-1 rounded bg-gray-800 text-white transition-colors hover:bg-gray-700"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+
+                  <span className="w-6 text-center">{item.qty}</span>
+
+                  <button
+                    onClick={() => increaseQty(item.id)}
+                    className="p-1 rounded bg-gray-800 text-white transition-colors hover:bg-gray-700"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <button
+                  onClick={() => removeFromCart(item.id)}
+                  className="text-red-500 hover:text-red-400"
+                >
+                  <Trash className="w-5 h-5" />
+                </button>
+              </div>
+            ))
           )}
         </div>
 
@@ -111,12 +114,14 @@ export const Sidebar = () => {
           </div>
 
           <Button
-            className={`w-full ${!item ? "opacity-50 cursor-not-allowed" : ""}`}
+            className={`w-full ${
+              items.length === 0 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             variant="orange"
             sizeText="small"
-            disabled={!item}
+            disabled={items.length === 0}
             onClick={() => {
-              if (!item) return;
+              if (items.length === 0) return;
               closeSidebar();
               router.push("/order");
             }}

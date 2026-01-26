@@ -11,33 +11,25 @@ import { useCartStore } from "@/app/store/cardStore";
 export default function ClubCard() {
   const { id } = useParams();
   const { clubCards, isLoading } = useProducts();
-
   const product = clubCards.find((item) => String(item.id) === id);
 
-  const cartItem = useCartStore((state) => state.item);
-  const addToCart = useCartStore((state) => state.addToCart);
-
-  const openSidebar = useUIStore((state) => state.openSidebar);
-  const openModal = useUIStore((state) => state.openModal);
+  const addToCart = useCartStore((s) => s.addToCart);
+  const openSidebar = useUIStore((s) => s.openSidebar);
 
   if (isLoading) return <FullScreenLoader />;
   if (!product)
     return <div className="pt-24 text-white">Товар не знайдено</div>;
 
   const handleAddToCart = () => {
-    if (!cartItem) {
-      addToCart({
-        id: product.id,
-        title: product.title,
-        price: product.rebate || product.price,
-        qty: 1,
-        image: product.photo?.[0] || "",
-        customId: product.customID,
-      });
-      openSidebar();
-    } else {
-      openModal();
-    }
+    addToCart({
+      id: product.id,
+      title: product.title,
+      price: product.rebate || product.price,
+      qty: 1,
+      image: product.photo?.[0] || "",
+      customId: product.customID,
+    });
+    openSidebar();
   };
 
   return (
@@ -60,28 +52,31 @@ export default function ClubCard() {
             </p>
           ))}
 
-          {product.rebate && product.rebate !== 0 ? (
-            <div>
-              <div className="line-through decoration-2 decoration-red-500">
+          <div className="flex flex-col items-end">
+            {product.rebate && product.rebate !== 0 ? (
+              <div>
+                <div className="line-through decoration-2 decoration-red-500">
+                  {product.price} <span className="text-lg">₴</span>
+                </div>
+                <div className="font-bold text-2xl text-red-500">
+                  {product.rebate} <span className="text-lg">₴</span>
+                </div>
+              </div>
+            ) : (
+              <div className="font-bold text-2xl">
                 {product.price} <span className="text-lg">₴</span>
               </div>
-              <div className="font-bold text-2xl text-red-500">
-                {product.rebate} <span className="text-lg">₴</span>
-              </div>
-            </div>
-          ) : (
-            <div className="font-bold text-2xl">
-              {product.price} <span className="text-lg">₴</span>
-            </div>
-          )}
+            )}
+            <div>Немає в наявності</div>
+          </div>
         </div>
       </div>
 
-      <div className="pt-12">
+      {/* <div className="pt-12">
         <Button variant="orange" onClick={handleAddToCart}>
-          {cartItem ? "Товар уже в кошику" : "Додати в кошик"}
+          Додати в кошик
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 }

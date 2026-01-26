@@ -6,7 +6,6 @@ import { Button } from "@/app/components/Button/Button";
 import { Slider } from "@/app/components/Slider/Slider";
 import { useProducts } from "@/app/hooks/useProducts";
 import { FullScreenLoader } from "@/app/components/FullScreenLoader/FullScreenLoader";
-
 import { useUIStore } from "@/app/store/uiStore";
 import { useCartStore } from "@/app/store/cardStore";
 
@@ -16,11 +15,8 @@ export default function Product() {
   const product = products.find((item) => String(item.id) === id);
   const [mounted, setMounted] = useState(false);
 
-  const cartItem = useCartStore((state) => state.item);
-  const addToCart = useCartStore((state) => state.addToCart);
-
-  const openSidebar = useUIStore((state) => state.openSidebar);
-  const openModal = useUIStore((state) => state.openModal);
+  const addToCart = useCartStore((s) => s.addToCart);
+  const openSidebar = useUIStore((s) => s.openSidebar);
 
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
@@ -30,19 +26,15 @@ export default function Product() {
     return <div className="pt-24 text-white">Товар не знайдено</div>;
 
   const handleAddToCart = () => {
-    if (!cartItem) {
-      addToCart({
-        id: product.id,
-        title: product.title,
-        price: product.price,
-        qty: 1,
-        image: product.photo?.[0] || "",
-        customId: product.customID,
-      });
-      openSidebar();
-    } else {
-      openModal();
-    }
+    addToCart({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      qty: 1,
+      image: product.photo?.[0] || "",
+      customId: product.customID,
+    });
+    openSidebar();
   };
 
   return (
@@ -61,7 +53,7 @@ export default function Product() {
 
       <div className="pt-12">
         <Button variant="orange" onClick={handleAddToCart}>
-          {cartItem ? "Товар уже в кошику" : "Додати в кошик"}
+          Додати в кошик
         </Button>
       </div>
     </div>

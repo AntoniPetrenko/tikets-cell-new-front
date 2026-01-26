@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
         source: "/api/payment/:id*",
         destination: "https://automerch.com.ua/api/payment/:id*",
       },
+       {
+        source: "/api/orders",
+        destination: "https://automerch.com.ua/api/orders",
+      },
     ];
   },
 };

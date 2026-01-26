@@ -39,9 +39,10 @@ const paymentOptions = ["Оплата карткою", "Apple Pay", "Google Pay"
 export default function OrderPage() {
   const router = useRouter();
 
-  const item = useCartStore((state) => state.item);
-  const getTotal = () => (item ? item.price * item.qty : 0);
+  const items = useCartStore((state) => state.items);
   const clearCart = useCartStore((state) => state.clearCart);
+
+  const getTotal = () => items.reduce((sum, i) => sum + i.price * i.qty, 0);
 
   const [region, setRegion] = useState<Region | null>(null);
   const [selectedPayment, setSelectedPayment] = useState(paymentOptions[0]);
@@ -49,7 +50,7 @@ export default function OrderPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<string>("");
 
-  const hasProducts = item?.customId === ProductsType.products;
+  const hasProducts = items.some((i) => i.customId === ProductsType.products);
   const formType = hasProducts ? "extended" : "basic";
 
   const basicForm = useForm<BasicForm>({
@@ -62,8 +63,6 @@ export default function OrderPage() {
     mode: "onChange",
   });
 
-  const items = item ? [item] : [];
-
   useEffect(() => {
     const savedBasic = localStorage.getItem("basicForm");
     if (savedBasic) {
@@ -72,7 +71,7 @@ export default function OrderPage() {
         basicForm.setValue(key as keyof BasicForm, value as any, {
           shouldValidate: true,
           shouldDirty: true,
-        })
+        }),
       );
       basicForm.trigger();
     }
@@ -84,7 +83,7 @@ export default function OrderPage() {
         extendedForm.setValue(key as keyof ExtendedForm, value as any, {
           shouldValidate: true,
           shouldDirty: true,
-        })
+        }),
       );
       extendedForm.trigger();
     }
@@ -106,14 +105,14 @@ export default function OrderPage() {
 
   useEffect(() => {
     const sub = basicForm.watch((v) =>
-      localStorage.setItem("basicForm", JSON.stringify(v))
+      localStorage.setItem("basicForm", JSON.stringify(v)),
     );
     return () => sub.unsubscribe();
   }, [basicForm]);
 
   useEffect(() => {
     const sub = extendedForm.watch((v) =>
-      localStorage.setItem("extendedForm", JSON.stringify(v))
+      localStorage.setItem("extendedForm", JSON.stringify(v)),
     );
     return () => sub.unsubscribe();
   }, [extendedForm]);
@@ -124,7 +123,7 @@ export default function OrderPage() {
 
   useEffect(
     () => localStorage.setItem("selectedPayment", selectedPayment),
-    [selectedPayment]
+    [selectedPayment],
   );
 
   const handleSubmit = async (data: any) => {
@@ -137,18 +136,38 @@ export default function OrderPage() {
     Object.entries(payload).forEach(([key, value]) =>
       localStorage.setItem(
         key,
-        Array.isArray(value) ? JSON.stringify(value) : (value as string)
-      )
+        Array.isArray(value) ? JSON.stringify(value) : (value as string),
+      ),
     );
 
     const params = new URLSearchParams(payload as any);
-    const result = await fetch(`/api/payment/${item?.id}?${params}`).then(
-      (res) => res.json()
-    );
+
+    // const result = await fetch(`/api/payment?${params.toString()}`, {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({
+    //     items,
+    //     total: getTotal(),
+    //   }),
+    // }).then((res) => res.json());
+
+    const result = await fetch(`/api/orders`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: data.firstName,
+        tel: data.phone,
+        email: data.email,
+        order: items.map((item) => ({
+          id: item.id,
+          count: item.qty,
+        })),
+      }),
+    }).then((res) => res.json());
 
     if (result.error && result.statusCode === 403) {
       setModalContent(
-        "Товари тимчасово недоступні! Ми вже працюємо над новим надходженням. Слідкуйте за оновленнями!"
+        "Товари тимчасово недоступні! Ми вже працюємо над новим надходженням. Слідкуйте за оновленнями!",
       );
       setIsModalOpen(true);
       return;
@@ -158,9 +177,11 @@ export default function OrderPage() {
       enqueueSnackbar(result.message, { variant: "error" });
       return;
     }
+
     //TODO temporary hide.
     clearCart();
-    router.push("/result");
+    router.push("/result?orderId=" + result.orderID);
+
     // if (result.invoiceId) {
     //   try {
     //     window.location.href = result.pageUrl;
@@ -200,6 +221,7 @@ export default function OrderPage() {
         src="//static.liqpay.ua/libjs/checkout.js"
         strategy="afterInteractive"
       />
+
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -346,8 +368,9 @@ export default function OrderPage() {
             )}
           </div>
 
-          <div className="bg-neutral-900 rounded-2xl p-6 h-fit flex flex-col">
+          <div className="bg-neutral-900 rounded-2xl p-6 h-fit">
             <h2 className="text-2xl font-bold mb-6">Ваше замовлення</h2>
+
             <div className="space-y-4 text-neutral-300">
               {items.length === 0 ? (
                 <p className="text-neutral-400">У кошику немає товарів.</p>
@@ -361,6 +384,7 @@ export default function OrderPage() {
                   </div>
                 ))
               )}
+
               {items.length > 0 && (
                 <div className="flex justify-between font-semibold text-white pt-2 border-t border-neutral-700">
                   <span>Загалом</span>

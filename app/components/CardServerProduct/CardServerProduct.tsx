@@ -18,7 +18,7 @@ export const CardServerProduct: React.FC<CardProps> = ({ product }) => {
       <div
         className="text-white flex flex-col w-[381px] h-[480px] border-2 border-white border-solid 
                  shadow-[inset_0_0_25px_rgba(255,255,255,0.8),0_0_35px_rgba(255,255,255,0.6)] 
-                 overflow-hidden p-4 transition-shadow duration-300 "
+                 overflow-hidden p-4 transition-shadow duration-300 opacity-50"
       >
         <div className="relative w-full h-[280px] flex justify-center items-center">
           <Image
@@ -42,24 +42,28 @@ export const CardServerProduct: React.FC<CardProps> = ({ product }) => {
           >
             Детальніше
           </Button>
-          {product.rebate != 0 ? (
-            <div>
-              {" "}
+          <div className="flex flex-col items-end">
+            {product.rebate != 0 ? (
               <div>
-                <span className="line-through decoration-2 decoration-red-500">
-                  {product.price}
-                </span>{" "}
-                <span>₴</span>
+                {" "}
+                <div>
+                  <span className="line-through decoration-2 decoration-red-500">
+                    {product.price}
+                  </span>{" "}
+                  <span>₴</span>
+                </div>
+                <div className="font-medium text-2xl text-red-500">
+                  {product.rebate} <span className="text-lg">₴</span>
+                </div>
               </div>
-              <div className="font-medium text-2xl text-red-500">
-                {product.rebate} <span className="text-lg">₴</span>
+            ) : (
+              <div className="font-medium text-2xl">
+                {product.price} <span className="text-lg">₴</span>
               </div>
-            </div>
-          ) : (
-            <div className="font-medium text-2xl">
-              {product.price} <span className="text-lg">₴</span>
-            </div>
-          )}
+            )}
+
+            <div>Немає в наявності</div>
+          </div>
         </div>
       </div>
     </Link>
