@@ -11,7 +11,6 @@ export const Sidebar = () => {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
-  // 🔥 ИЗМЕНЕНО: items вместо item
   const items = useCartStore((s) => s.items);
   const increaseQty = useCartStore((s) => s.increaseQty);
   const decreaseQty = useCartStore((s) => s.decreaseQty);
@@ -42,7 +41,6 @@ export const Sidebar = () => {
 
   if (!mounted) return null;
 
-  // 🔥 ИЗМЕНЕНО: считаем total из массива
   const total = items.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   return (

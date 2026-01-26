@@ -14,7 +14,6 @@ export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // 🔥 ИСПРАВЛЕНО: считаем общее количество товаров
   const cartCount = useCartStore((s) =>
     s.items.reduce((sum, item) => sum + item.qty, 0),
   );
