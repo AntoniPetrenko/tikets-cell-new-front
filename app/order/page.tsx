@@ -45,6 +45,7 @@ export default function OrderPage() {
 
   const [region, setRegion] = useState<Region | null>(null);
   const [selectedPayment, setSelectedPayment] = useState(paymentOptions[0]);
+  const [paymentMethod, setPaymentMethod] = useState<"card" | "crypto">("card");
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<string>("");
@@ -102,6 +103,9 @@ export default function OrderPage() {
 
     const savedPayment = localStorage.getItem("selectedPayment");
     if (savedPayment) setSelectedPayment(savedPayment);
+
+    const savedPaymentMethod = localStorage.getItem("paymentMethod");
+    if (savedPaymentMethod) setPaymentMethod(savedPaymentMethod as "card" | "crypto");
   }, []);
 
   useEffect(() => {
@@ -125,6 +129,11 @@ export default function OrderPage() {
   useEffect(
     () => localStorage.setItem("selectedPayment", selectedPayment),
     [selectedPayment]
+  );
+
+  useEffect(
+    () => localStorage.setItem("paymentMethod", paymentMethod),
+    [paymentMethod]
   );
 
   const handleSubmit = async (data: any) => {
@@ -354,6 +363,36 @@ export default function OrderPage() {
                   правилами та умовами
                 </a>
               </span>
+            </div>
+
+            <div className="mt-4 space-y-2">
+              <p className="text-sm text-neutral-300 font-medium">
+                Спосіб оплати
+              </p>
+              <div className="flex flex-col gap-2">
+                <label className="flex items-center gap-2 text-sm text-neutral-400 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="card"
+                    checked={paymentMethod === "card"}
+                    onChange={(e) => setPaymentMethod(e.target.value as "card" | "crypto")}
+                    className="accent-orange-400"
+                  />
+                  <span>Оплата карткою</span>
+                </label>
+                <label className="flex items-center gap-2 text-sm text-neutral-400 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="crypto"
+                    checked={paymentMethod === "crypto"}
+                    onChange={(e) => setPaymentMethod(e.target.value as "card" | "crypto")}
+                    className="accent-orange-400"
+                  />
+                  <span>Оплата криптовалютою</span>
+                </label>
+              </div>
             </div>
 
             <button
