@@ -141,7 +141,7 @@ export default function OrderPage() {
       name: data.firstName,
       tel: data.phone,
       email: data.email,
-      paymentMethod: data.paymentMethod
+      paymentMethod
     };
 
     Object.entries(payload).forEach(([key, value]) =>
