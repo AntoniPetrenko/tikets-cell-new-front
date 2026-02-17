@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CustomSelect } from "../components/CustomSelect/CustomSelect";
 import { TextField } from "../components/TextField/TextField";
 import { Region } from "../const/ukraineRegions";
 import { ProductsType } from "../types";
@@ -36,6 +35,9 @@ type ExtendedForm = z.infer<typeof extendedSchema>;
 
 const paymentOptions = ["Оплата карткою", "Apple Pay", "Google Pay"];
 
+// Товары, для которых доступен выбор способа оплаты
+const PAYMENT_METHOD_ALLOWED_IDS = [1, 2, 5, 6];
+
 export default function OrderPage() {
   const router = useRouter();
 
@@ -52,6 +54,9 @@ export default function OrderPage() {
 
   const hasProducts = item?.customId === ProductsType.products;
   const formType = hasProducts ? "extended" : "basic";
+
+  // Проверка, доступен ли выбор способа оплаты для текущего товара
+  const isPaymentMethodSelectionAllowed = item ? PAYMENT_METHOD_ALLOWED_IDS.includes(item.id) : false;
 
   const basicForm = useForm<BasicForm>({
     resolver: zodResolver(basicSchema),
@@ -242,89 +247,9 @@ export default function OrderPage() {
                 />
               </form>
             ) : (
-              <form
-                onSubmit={extendedForm.handleSubmit(handleSubmit)}
-                className="grid gap-6"
-              >
-                <TextField
-                  label="Ім'я"
-                  name="firstName"
-                  register={extendedForm.register}
-                  error={extendedForm.formState.errors.firstName}
-                  required
-                />
-                <TextField
-                  label="Прізвище"
-                  name="lastName"
-                  register={extendedForm.register}
-                  error={extendedForm.formState.errors.lastName}
-                  required
-                />
-                <TextField
-                  label="Телефон"
-                  name="phone"
-                  type="tel"
-                  placeholder="+380XXXXXXXXX"
-                  register={extendedForm.register}
-                  error={extendedForm.formState.errors.phone}
-                  required
-                  onChange={(e) => {
-                    let digits = e.target.value.replace(/\D/g, "");
-                    if (!digits.startsWith("38")) digits = "38" + digits;
-                    digits = digits.slice(0, 12);
-                    extendedForm.setValue("phone", digits ? "+" + digits : "", {
-                      shouldValidate: true,
-                      shouldDirty: true,
-                    });
-                  }}
-                />
-                <TextField
-                  label="E-mail адреса"
-                  name="email"
-                  type="email"
-                  register={extendedForm.register}
-                  error={extendedForm.formState.errors.email}
-                  required
-                />
-                <TextField
-                  label="Назва вулиці"
-                  name="street"
-                  register={extendedForm.register}
-                  error={extendedForm.formState.errors.street}
-                  required
-                />
-                <TextField
-                  label="Місто / Село"
-                  name="city"
-                  register={extendedForm.register}
-                  error={extendedForm.formState.errors.city}
-                  required
-                />
-                <TextField
-                  label="Поштовий індекс"
-                  name="zip"
-                  register={extendedForm.register}
-                  error={extendedForm.formState.errors.zip}
-                  required
-                />
-                <div>
-                  <label className="block mb-1">
-                    Область <span className="text-red-500">*</span>
-                  </label>
-                  <CustomSelect
-                    value={region}
-                    onChange={(value) => {
-                      setRegion(value);
-                      extendedForm.setValue("region", value as any);
-                    }}
-                  />
-                  {extendedForm.formState.errors.region && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {extendedForm.formState.errors.region.message as string}
-                    </p>
-                  )}
-                </div>
-              </form>
+              <div className="p-6 bg-neutral-900 rounded-lg text-neutral-300 text-center">
+                <p>Для уточнення інформації щодо наявності товару зверніться до служби підтримки магазину.</p>
+              </div>
             )}
           </div>
 
@@ -366,35 +291,37 @@ export default function OrderPage() {
               </span>
             </div>
 
-            <div className="mt-4 space-y-2">
-              <p className="text-sm text-neutral-300 font-medium">
-                Спосіб оплати
-              </p>
-              <div className="flex flex-col gap-2">
-                <label className="flex items-center gap-2 text-sm text-neutral-400 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="card"
-                    checked={paymentMethod === "card"}
-                    onChange={(e) => setPaymentMethod(e.target.value as "card" | "crypto")}
-                    className="accent-orange-400"
-                  />
-                  <span>Оплата карткою</span>
-                </label>
-                <label className="flex items-center gap-2 text-sm text-neutral-400 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="crypto"
-                    checked={paymentMethod === "crypto"}
-                    onChange={(e) => setPaymentMethod(e.target.value as "card" | "crypto")}
-                    className="accent-orange-400"
-                  />
-                  <span>Оплата криптовалютою</span>
-                </label>
+            {isPaymentMethodSelectionAllowed && (
+              <div className="mt-4 space-y-2">
+                <p className="text-sm text-neutral-300 font-medium">
+                  Спосіб оплати
+                </p>
+                <div className="flex flex-col gap-2">
+                  <label className="flex items-center gap-2 text-sm text-neutral-400 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="card"
+                      checked={paymentMethod === "card"}
+                      onChange={(e) => setPaymentMethod(e.target.value as "card" | "crypto")}
+                      className="accent-orange-400"
+                    />
+                    <span>Оплата карткою</span>
+                  </label>
+                  <label className="flex items-center gap-2 text-sm text-neutral-400 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="crypto"
+                      checked={paymentMethod === "crypto"}
+                      onChange={(e) => setPaymentMethod(e.target.value as "card" | "crypto")}
+                      className="accent-orange-400"
+                    />
+                    <span>Оплата криптовалютою</span>
+                  </label>
+                </div>
               </div>
-            </div>
+            )}
 
             <button
               type="submit"
