@@ -158,48 +158,20 @@ export default function OrderPage() {
       enqueueSnackbar(result.message, { variant: "error" });
       return;
     }
-    //TODO temporary hide.
-    clearCart();
-    router.push("/result");
-    // if (result.invoiceId) {
-    //   try {
-    //     window.location.href = result.pageUrl;
-    //     return;
-    //   } catch (e: any) {
-    //     enqueueSnackbar(e.message, { variant: "error" });
-    //     return;
-    //   }
-    // }
-    //
-    // (window as any).LiqPayCheckoutCallback = function () {
-    //   (window as any).LiqPayCheckout.init({
-    //     data: result.data,
-    //     signature: result.signature,
-    //     mode: "popup",
-    //   })
-    //     .on("liqpay.callback", function ({ status, info: rawInfo }: any) {
-    //       (window as any).LiqPayCheckout.lastStatus = status;
-    //       const info = JSON.parse(rawInfo);
-    //       (window as any).LiqPayCheckout.info = info;
-    //       enqueueSnackbar(status, { variant: "success" });
-    //     })
-    //     .on("liqpay.close", function () {
-    //       if ((window as any).LiqPayCheckout.lastStatus === "success") {
-    //         clearCart();
-    //         router.push("/result");
-    //       }
-    //     });
-    // };
-    //
-    // (window as any).LiqPayCheckoutCallback();
+
+    if (result.url) {
+      try {
+        window.location.href = result.url;
+        return;
+      } catch (e: any) {
+        enqueueSnackbar(e.message, { variant: "error" });
+        return;
+      }
+    }
   };
 
   return (
     <>
-      <Script
-        src="//static.liqpay.ua/libjs/checkout.js"
-        strategy="afterInteractive"
-      />
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
