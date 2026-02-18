@@ -109,8 +109,6 @@ export default function OrderPage() {
     const savedPayment = localStorage.getItem("selectedPayment");
     if (savedPayment) setSelectedPayment(savedPayment);
 
-    const savedPaymentMethod = localStorage.getItem("paymentMethod");
-    if (savedPaymentMethod) setPaymentMethod(savedPaymentMethod as "card" | "crypto");
   }, []);
 
   useEffect(() => {
